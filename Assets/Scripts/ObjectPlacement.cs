@@ -73,7 +73,7 @@ namespace ARChristmas
 
         private void PlaceChristmasTree(Vector2 touchPosOnScreen) 
         {
-            if (arRaycastManager.Raycast(touchPosOnScreen, arRayHits, TrackableType.All))
+            if (arRaycastManager.Raycast(touchPosOnScreen, arRayHits, TrackableType.Planes))
             {
                 Pose placementPose = arRayHits[0].pose;
                 Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation);
