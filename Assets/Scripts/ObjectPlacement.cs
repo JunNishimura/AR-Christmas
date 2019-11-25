@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-namespace ARChristmasTree
+namespace ARChristmas
 {
     public enum PlayMode
     {
@@ -19,22 +19,23 @@ namespace ARChristmasTree
         public GameObject christmasTreePrefab;
         public GameObject[] decorationItems;
         public static int decorationItemIndex = 0;
-
         public static PlayMode currentPlayMode;
+
+        // AR settings
         private ARSessionOrigin arSessionOrigin;
         private ARRaycastManager arRaycastManager;
         private List<ARRaycastHit> arRayHits;
-        private Pose placementPose;
-        private float maxRayDistance;
 
         private void Start() 
         {
+            // Scene settings
             Snow.SetActive(false);
             currentPlayMode = PlayMode.ChristmasTree;
+
+            // AR settings
             arSessionOrigin = FindObjectOfType<ARSessionOrigin>();
             arRaycastManager = FindObjectOfType<ARRaycastManager>();
             arRayHits = new List<ARRaycastHit>();
-            maxRayDistance = 100.0f;
         }
 
         private void Update() 
@@ -42,7 +43,6 @@ namespace ARChristmasTree
             if (Input.touchCount > 0)
             {
                 Touch touchIN = Input.GetTouch(0);
-                UpdatePlacementPose(touchIN.position);
 
                 // if the user touchces on UI, stop shooting a ray
                 if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
@@ -52,24 +52,16 @@ namespace ARChristmasTree
                 
                 if (touchIN.phase == TouchPhase.Began) 
                 {
+                    Vector2 touchPosOnScreen = touchIN.position;
+
                     // if no christmas tree in the scene, place it at first
                     if(currentPlayMode == PlayMode.ChristmasTree) 
                     {
-                        PlaceChristmasTree();
+                        PlaceChristmasTree(touchPosOnScreen);
                     } 
                     else if (currentPlayMode == PlayMode.Decoration)
                     {
-                        Ray ray = Camera.main.ScreenPointToRay(touchIN.position);
-                        RaycastHit raycastHit;
-                        
-                        if (Physics.Raycast(ray, out raycastHit, maxRayDistance))
-                        {
-                            // if the ray hits ChristmasTree, let the user decorate ChristmasTree
-                            if (raycastHit.transform.CompareTag("ChristmasTree"))
-                            {
-                                Decorate(raycastHit.point);
-                            }
-                        }
+                        Decorate(touchPosOnScreen);
                     }
                 }
                 else if (touchIN.phase == TouchPhase.Ended) 
@@ -79,29 +71,30 @@ namespace ARChristmasTree
             }
         }
 
-        private void UpdatePlacementPose(Vector2 touchPosOnScreen) 
+        private void PlaceChristmasTree(Vector2 touchPosOnScreen) 
         {
             if (arRaycastManager.Raycast(touchPosOnScreen, arRayHits, TrackableType.All))
-            {   
-                placementPose = arRayHits[0].pose;
-            }
-        }
-
-        private void PlaceChristmasTree() 
-        {
-            Snow.SetActive(true);
-            if (currentPlayMode == PlayMode.ChristmasTree)
             {
+                Pose placementPose = arRayHits[0].pose;
                 Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation);
                 currentPlayMode = PlayMode.Decoration;
             }
+            Snow.SetActive(true);
         }
 
-        private void Decorate(Vector3 decoratePos) 
+        private void Decorate(Vector2 touchPosOnScreen) 
         {
-            if (currentPlayMode == PlayMode.Decoration) 
+            Ray ray = Camera.main.ScreenPointToRay(touchPosOnScreen);
+            RaycastHit raycastHit;
+                        
+            if (Physics.Raycast(ray, out raycastHit))
             {
-                Instantiate(decorationItems[decorationItemIndex], decoratePos, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f));
+                // if the ray hits ChristmasTree, let the user decorate ChristmasTree
+                if (raycastHit.transform.CompareTag("ChristmasTree"))
+                {
+                    Vector3 decoratePos = raycastHit.point;
+                    Instantiate(decorationItems[decorationItemIndex], decoratePos, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f));
+                }
             }
         }
     }

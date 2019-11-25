@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace ARChristmasTree
+namespace ARChristmas
 {
     public class UIController : MonoBehaviour
     {
