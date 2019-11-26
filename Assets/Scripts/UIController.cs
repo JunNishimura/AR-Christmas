@@ -9,11 +9,17 @@ namespace ARChristmas
     public class UIController : MonoBehaviour
     {
         public TextMeshProUGUI playModeText;
-        public GameObject decorationItemListObj;
+        public GameObject Inventory;
+        public GameObject InventoryDisplayIcon;
         private PlayMode prevPlayMode;
+        private bool isInventoryON;
 
         private void Start() 
         {
+            Inventory.SetActive(false);
+            InventoryDisplayIcon.SetActive(false);
+            isInventoryON = false;
+
             prevPlayMode = ObjectPlacement.currentPlayMode;
             UpdatePlayModeText();
         }
@@ -27,39 +33,47 @@ namespace ARChristmas
             }
         }
 
+        /// <summary>
+        /// 現在のプレイモードを表示する
+        /// </summary>
         public void UpdatePlayModeText() 
         {
             if (ObjectPlacement.currentPlayMode == PlayMode.ChristmasTree) 
             {
                 playModeText.text = "Mode: Christmas Tree";
-                decorationItemListObj.SetActive(false);
             }
             else if (ObjectPlacement.currentPlayMode == PlayMode.Decoration)
             {
                 playModeText.text = "Mode: Decoration";
-                decorationItemListObj.SetActive(true);
+                DisplayToggle();
             }
         }
 
-        // ここのコードもっと綺麗にしたい
-        public void DecorationItem1() 
+        /// <summary>
+        /// InventoryUIの表示/非表示を切り替える
+        /// Buttonから呼ばれる
+        /// </summary>
+        public void DisplayToggle() 
         {
-            ObjectPlacement.decorationItemIndex = 0;
+            if (isInventoryON) 
+            {
+                Inventory.SetActive(false);
+                InventoryDisplayIcon.SetActive(true);
+            }
+            else 
+            {
+                Inventory.SetActive(true);
+                InventoryDisplayIcon.SetActive(false);
+            }
+            isInventoryON = !isInventoryON;
         }
 
-        public void DecorationItem2() 
+        /// <summary>
+        /// タッチされたdecoration itemのiconと同じオブジェクトが生成されるようにインデックスを変更する
+        /// </summary>
+        public void OnClick(int id) 
         {
-            ObjectPlacement.decorationItemIndex = 1;
-        }
-
-        public void DecorationItem3() 
-        {
-            ObjectPlacement.decorationItemIndex = 2;
-        }
-
-        public void DecorationItem4() 
-        {
-            ObjectPlacement.decorationItemIndex = 3;
+            ObjectPlacement.decorationItemIndex = id;
         }
     }
 }
