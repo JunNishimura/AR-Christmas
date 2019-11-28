@@ -10,7 +10,7 @@ namespace ARChristmas
     {
         public TextMeshProUGUI playModeText;
         public GameObject Inventory;
-        public GameObject InventoryDisplayIcon;
+        public GameObject InventoryDisplayIcon; // もう少し良い変数名前を考えよう。
         private PlayMode prevPlayMode;
         private bool isInventoryON;
 
@@ -34,7 +34,7 @@ namespace ARChristmas
         }
 
         /// <summary>
-        /// 現在のプレイモードを表示する
+        /// Display the current play mode
         /// </summary>
         public void UpdatePlayModeText() 
         {
@@ -51,7 +51,6 @@ namespace ARChristmas
 
         /// <summary>
         /// InventoryUIの表示/非表示を切り替える
-        /// Buttonから呼ばれる
         /// </summary>
         public void DisplayToggle() 
         {
@@ -69,9 +68,9 @@ namespace ARChristmas
         }
 
         /// <summary>
-        /// タッチされたdecoration itemのiconと同じオブジェクトが生成されるようにインデックスを変更する
+        ///　生成するデコレーションアイテムをタップされたアイテムに切り替える
         /// </summary>
-        public void OnClick(int id) 
+        public void TapDecorationItem(int id) 
         {
             ObjectPlacement.decorationItemIndex = id;
         }
