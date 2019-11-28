@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+namespace ARChristmas
 {
-    public void SceneLoad(string sceneNameToLoad) 
+    public class SceneLoader : MonoBehaviour
     {
-        SceneManager.LoadScene(sceneNameToLoad);
-    }
+        public void SceneLoad(string sceneNameToLoad) 
+        {
+            SceneManager.LoadScene(sceneNameToLoad);
+        }
+    }   
 }
