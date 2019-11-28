@@ -245,7 +245,7 @@ PrefabInstance:
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClick
+      value: TapDecorationItem
       objectReference: {fileID: 0}
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
@@ -389,7 +389,7 @@ PrefabInstance:
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClick
+      value: TapDecorationItem
       objectReference: {fileID: 0}
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
@@ -722,7 +722,7 @@ PrefabInstance:
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClick
+      value: TapDecorationItem
       objectReference: {fileID: 0}
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
@@ -1322,7 +1322,7 @@ PrefabInstance:
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClick
+      value: TapDecorationItem
       objectReference: {fileID: 0}
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
@@ -1542,7 +1542,7 @@ PrefabInstance:
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClick
+      value: TapDecorationItem
       objectReference: {fileID: 0}
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
@@ -1754,7 +1754,7 @@ PrefabInstance:
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClick
+      value: TapDecorationItem
       objectReference: {fileID: 0}
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
@@ -2001,7 +2001,7 @@ PrefabInstance:
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClick
+      value: TapDecorationItem
       objectReference: {fileID: 0}
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
@@ -2190,7 +2190,7 @@ PrefabInstance:
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClick
+      value: TapDecorationItem
       objectReference: {fileID: 0}
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
@@ -2417,12 +2417,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 9206133970534329532, guid: c40dcb31e30ae490c90c8228b55231a2,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: beb61bce7181b4ee99983fb59f2a667a,
-        type: 3}
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2431,7 +2425,7 @@ PrefabInstance:
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClick
+      value: TapDecorationItem
       objectReference: {fileID: 0}
     - target: {fileID: 1467900207150779451, guid: c40dcb31e30ae490c90c8228b55231a2,
         type: 3}
@@ -2448,6 +2442,12 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9206133970534329532, guid: c40dcb31e30ae490c90c8228b55231a2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: beb61bce7181b4ee99983fb59f2a667a,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c40dcb31e30ae490c90c8228b55231a2, type: 3}
 --- !u!224 &2116829149 stripped
