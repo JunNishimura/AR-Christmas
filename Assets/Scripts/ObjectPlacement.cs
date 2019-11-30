@@ -15,16 +15,20 @@ namespace ARChristmas
     }
     public class ObjectPlacement : MonoBehaviour
     {
-        public GameObject Snow;
-        public GameObject christmasTreePrefab;
-        public GameObject[] decorationItems;
-        public static int decorationItemIndex = 0;
-        public static PlayMode currentPlayMode;
-
         // AR settings
         private ARSessionOrigin arSessionOrigin;
         private ARRaycastManager arRaycastManager;
         private List<ARRaycastHit> arRayHits;
+
+        // Game contents settings
+        public static int decorationItemIndex = 0;
+        public static PlayMode currentPlayMode;
+        public GameObject Snow;
+        public GameObject christmasTreePrefab;
+        public GameObject[] decorationItems;
+
+        private GameObject christmasTree;
+
 
         private void Start() 
         {
@@ -64,19 +68,15 @@ namespace ARChristmas
                         Decorate(touchPosOnScreen);
                     }
                 }
-                else if (touchIN.phase == TouchPhase.Ended) 
-                {
-
-                }
             }
         }
 
         private void PlaceChristmasTree(Vector2 touchPosOnScreen) 
         {
-            if (arRaycastManager.Raycast(touchPosOnScreen, arRayHits, TrackableType.Planes))
+            if (arRaycastManager.Raycast(touchPosOnScreen, arRayHits, TrackableType.PlaneWithinPolygon))
             {
                 Pose placementPose = arRayHits[0].pose;
-                Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation);
+                christmasTree = Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation) as GameObject;
                 currentPlayMode = PlayMode.Decoration;
             }
             Snow.SetActive(true);
@@ -93,9 +93,28 @@ namespace ARChristmas
                 if (raycastHit.transform.CompareTag("ChristmasTree"))
                 {
                     Vector3 decoratePos = raycastHit.point;
-                    Instantiate(decorationItems[decorationItemIndex], decoratePos, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f));
+                    Instantiate(decorationItems[decorationItemIndex], decoratePos, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f), christmasTree.transform);
                 }
             }
+        }
+
+        public void ScaleChristmasTree(float sliderValue) 
+        {
+            Vector3 pivot = new Vector3(christmasTree.transform.localPosition.x, 0f, christmasTree.transform.localPosition.z);
+            ScaleAroundPivot(pivot, Vector3.one * sliderValue);
+        }
+
+        private void ScaleAroundPivot(Vector3 pivot, Vector3 newScale) 
+        {
+            Vector3 pivotToCenter = christmasTree.transform.localPosition - pivot;
+            float relScaleAmount = newScale.x / christmasTree.transform.localScale.x;
+
+            // calculate final position
+            Vector3 finalPosition = pivot + pivotToCenter * relScaleAmount;
+
+            // execute scaling 
+            christmasTree.transform.localScale = newScale;
+            christmasTree.transform.localPosition = finalPosition;
         }
     }
 }
