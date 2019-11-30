@@ -2,69 +2,63 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace ARChristmas
 {
     public class UIController : MonoBehaviour
     {
-        public TextMeshProUGUI playModeText;
-        public GameObject Inventory;
-        public GameObject InventoryDisplayIcon; // もう少し良い変数名前を考えよう。
-        private PlayMode prevPlayMode;
-        private bool isInventoryON;
+        public GameObject CameraFlashEffect;
+        public Button settingButton;
+        public Button backButton;
+        public Button scaleButton;
+        public Slider scaleSlider;
+        public Button decorationButton;
+        public GameObject decorationInventory;
+        public Button cameraModeButton;
+        public Button captureButton;
+
+        private PlayMode prevMode;
+        private Image flashEffectImage;
+        private bool isFlashEffect;
 
         private void Start() 
         {
-            Inventory.SetActive(false);
-            InventoryDisplayIcon.SetActive(false);
-            isInventoryON = false;
-
-            prevPlayMode = ObjectPlacement.currentPlayMode;
-            UpdatePlayModeText();
+            ControlUIActivation(false, false, false, false, false, false, false, false, false);
+            prevMode = ObjectPlacement.currentPlayMode;
+            isFlashEffect = false;
         }
 
         private void Update() 
         {
-            if (prevPlayMode != ObjectPlacement.currentPlayMode) 
+            // initialize uGUI after a christmas tree appears on the screen
+            if (ObjectPlacement.currentPlayMode != prevMode)
             {
-                prevPlayMode = ObjectPlacement.currentPlayMode;
-                UpdatePlayModeText();
+                InitializeUI();
+                prevMode = ObjectPlacement.currentPlayMode;
             }
-        }
 
-        /// <summary>
-        /// Display the current play mode
-        /// </summary>
-        public void UpdatePlayModeText() 
-        {
-            if (ObjectPlacement.currentPlayMode == PlayMode.ChristmasTree) 
+            // camera flash effect
+            if (CameraFlashEffect.activeSelf) 
             {
-                playModeText.text = "Mode: Christmas Tree";
-            }
-            else if (ObjectPlacement.currentPlayMode == PlayMode.Decoration)
-            {
-                playModeText.text = "Mode: Decoration";
-                DisplayToggle();
-            }
-        }
+                if(! isFlashEffect) 
+                {
+                    isFlashEffect = true;
+                    flashEffectImage = CameraFlashEffect.GetComponent<Image>();
+                    flashEffectImage.color = Color.white;
+                }
+                else 
+                {
+                    flashEffectImage.color = Color.Lerp(flashEffectImage.color, Color.clear, Time.deltaTime);
 
-        /// <summary>
-        /// InventoryUIの表示/非表示を切り替える
-        /// </summary>
-        public void DisplayToggle() 
-        {
-            if (isInventoryON) 
-            {
-                Inventory.SetActive(false);
-                InventoryDisplayIcon.SetActive(true);
+                    // finish camera flash effect
+                    if (flashEffectImage.color.a <= 0.05f)
+                    {
+                        flashEffectImage.color = Color.clear;
+                        isFlashEffect = false;
+                        ControlUIActivation(false, true, false, false, false, false, false, false, false);
+                    }
+                }
             }
-            else 
-            {
-                Inventory.SetActive(true);
-                InventoryDisplayIcon.SetActive(false);
-            }
-            isInventoryON = !isInventoryON;
         }
 
         /// <summary>
@@ -73,6 +67,37 @@ namespace ARChristmas
         public void TapDecorationItem(int id) 
         {
             ObjectPlacement.decorationItemIndex = id;
+        }
+
+        private void InitializeUI() 
+        {
+            // all buttons need to be true to set click event
+            ControlUIActivation(false, true, true, true, true, true, false, true, true);
+
+            // set click event for each button
+            settingButton.onClick.AddListener(() => ControlUIActivation(false, false, true, true, false, true, false, true, false));
+            backButton.onClick.AddListener(() => ControlUIActivation(false, true, false, false, false, false, false, false, false));
+            scaleButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, true, false, false, false, false));
+            scaleSlider.onValueChanged.AddListener(GameObject.FindObjectOfType<ObjectPlacement>().ScaleChristmasTree);
+            decorationButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, false, false, true, false, false));
+            cameraModeButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, false, false, false, false, true));
+            captureButton.onClick.AddListener(captureButton.gameObject.GetComponent<ScreenShot>().ScreenShotPressed);
+            
+            // setting button can be only true as default
+            ControlUIActivation(false, true, false, false, false, false, false, false, false);
+        }
+
+        public void ControlUIActivation(bool isFlashEffect, bool isSetting, bool isBack, bool isScale, bool isScaleSlider, bool isDecoration, bool isDecorationInv, bool isCameraMode, bool isCapture) 
+        {
+            CameraFlashEffect.SetActive(isFlashEffect);
+            settingButton.gameObject.SetActive(isSetting);
+            backButton.gameObject.SetActive(isBack);
+            scaleButton.gameObject.SetActive(isScale);
+            scaleSlider.gameObject.SetActive(isScaleSlider);
+            decorationButton.gameObject.SetActive(isDecoration);
+            decorationInventory.SetActive(isDecorationInv);
+            cameraModeButton.gameObject.SetActive(isCameraMode);
+            captureButton.gameObject.SetActive(isCapture);
         }
     }
 }
