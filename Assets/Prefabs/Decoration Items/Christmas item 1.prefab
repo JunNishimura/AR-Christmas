@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3671424711195304625}
   - component: {fileID: 3671424711191359081}
   m_Layer: 0
-  m_Name: Christmas ball 2
+  m_Name: Christmas item 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
