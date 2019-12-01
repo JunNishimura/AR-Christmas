@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1310,6 +1310,7 @@ GameObject:
   - component: {fileID: 435737827}
   - component: {fileID: 435737826}
   - component: {fileID: 435737830}
+  - component: {fileID: 435737831}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -1386,6 +1387,31 @@ MonoBehaviour:
   m_PlanePrefab: {fileID: 7785777533020469908, guid: 3792f978107114837b2c8e9b7d3b315f,
     type: 3}
   m_DetectionMode: -1
+--- !u!114 &435737831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435737825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078fb9ef69ff54c5687eaf6836e6c3d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Snow: {fileID: 1326507140}
+  christmasTreePrefab: {fileID: 6484985636612100308, guid: a7e56106b0075405880740947aa7a2bc,
+    type: 3}
+  decorationItems:
+  - {fileID: 3671424711193389307, guid: 05d55ddc4def448b9ade7f8247907d88, type: 3}
+  - {fileID: 2526976720392508161, guid: eb71cf00b5edb4459a0b4fb0eab3cd9f, type: 3}
+  - {fileID: 2526976720392508161, guid: eb71cf00b5edb4459a0b4fb0eab3cd9f, type: 3}
+  - {fileID: 2526976720392508161, guid: eb71cf00b5edb4459a0b4fb0eab3cd9f, type: 3}
+  - {fileID: 2526976720392508161, guid: eb71cf00b5edb4459a0b4fb0eab3cd9f, type: 3}
+  - {fileID: 2526976720392508161, guid: eb71cf00b5edb4459a0b4fb0eab3cd9f, type: 3}
+  - {fileID: 2526976720392508161, guid: eb71cf00b5edb4459a0b4fb0eab3cd9f, type: 3}
+  - {fileID: 2526976720392508161, guid: eb71cf00b5edb4459a0b4fb0eab3cd9f, type: 3}
+  - {fileID: 2526976720392508161, guid: eb71cf00b5edb4459a0b4fb0eab3cd9f, type: 3}
 --- !u!224 &490902901 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5315189124566432259, guid: c40dcb31e30ae490c90c8228b55231a2,
@@ -2180,7 +2206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1196024169
 MonoBehaviour:
   m_ObjectHideFlags: 0

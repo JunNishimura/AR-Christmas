@@ -18,6 +18,7 @@ namespace ARChristmas
         // AR settings
         private ARSessionOrigin arSessionOrigin;
         private ARRaycastManager arRaycastManager;
+        private ARPlaneManager arPlaneManager;
         private List<ARRaycastHit> arRayHits;
 
         // Game contents settings
@@ -37,8 +38,9 @@ namespace ARChristmas
             currentPlayMode = PlayMode.ChristmasTree;
 
             // AR settings
-            arSessionOrigin = FindObjectOfType<ARSessionOrigin>();
-            arRaycastManager = FindObjectOfType<ARRaycastManager>();
+            arSessionOrigin = GetComponent<ARSessionOrigin>();
+            arRaycastManager = GetComponent<ARRaycastManager>();
+            arPlaneManager = GetComponent<ARPlaneManager>();
             arRayHits = new List<ARRaycastHit>();
         }
 
@@ -78,8 +80,19 @@ namespace ARChristmas
                 Pose placementPose = arRayHits[0].pose;
                 christmasTree = Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation) as GameObject;
                 currentPlayMode = PlayMode.Decoration;
+                Snow.SetActive(true);
+                DisableARPlaneDetection();
             }
-            Snow.SetActive(true);
+        }
+
+        private void DisableARPlaneDetection() 
+        {
+            arPlaneManager.enabled = false;
+
+            foreach(ARPlane plane in arPlaneManager.trackables) 
+            {
+                plane.gameObject.SetActive(false);
+            }
         }
 
         private void Decorate(Vector2 touchPosOnScreen) 

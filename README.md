@@ -1,7 +1,11 @@
 # AR Christmas
 
+## MUST
+- scale 調節
+- set decoration item 
+- disable ar plane detection 
+
 ## Ideas
-- 写真撮れるようにする
 - お願いすると何かアニメーション出る
 - multi player can decorate at the same time
 - twitter連携
@@ -12,11 +16,9 @@
 (UI)
 - ツリーの移動、スケール
 - itemバリエーション増やす
-- シーンクリア
 
 ## 次
 スケール修正
-写真とるときのUI綺麗にする
 loading sceneでpixel santaが走っているようなのつくる　
 
 (need to study)
