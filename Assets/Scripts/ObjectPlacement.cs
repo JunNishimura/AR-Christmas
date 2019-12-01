@@ -19,6 +19,7 @@ namespace ARChristmas
         private ARSessionOrigin arSessionOrigin;
         private ARRaycastManager arRaycastManager;
         private ARPlaneManager arPlaneManager;
+        private AREnvironmentProbeManager arEnvironmentProbeManager;
         private List<ARRaycastHit> arRayHits;
 
         // Game contents settings
@@ -41,6 +42,7 @@ namespace ARChristmas
             arSessionOrigin = GetComponent<ARSessionOrigin>();
             arRaycastManager = GetComponent<ARRaycastManager>();
             arPlaneManager = GetComponent<ARPlaneManager>();
+            arEnvironmentProbeManager = GetComponent<AREnvironmentProbeManager>();
             arRayHits = new List<ARRaycastHit>();
         }
 
