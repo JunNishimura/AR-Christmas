@@ -8,7 +8,6 @@ namespace ARChristmas
     {
         [SerializeField] private float snowCoverdSeconds; // 積雪量が最大値に達するまでにかかる時間
         private Renderer treeRenderer;
-      
         private void Start() 
         {
             treeRenderer = this.GetComponent<Renderer>();

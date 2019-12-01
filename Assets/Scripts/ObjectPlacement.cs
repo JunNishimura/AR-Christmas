@@ -19,28 +19,31 @@ namespace ARChristmas
         private ARSessionOrigin arSessionOrigin;
         private ARRaycastManager arRaycastManager;
         private ARPlaneManager arPlaneManager;
+        private AREnvironmentProbeManager arEnvironmentProbeManager;
         private List<ARRaycastHit> arRayHits;
 
         // Game contents settings
-        public static int decorationItemIndex = 0;
-        public static PlayMode currentPlayMode;
+        public static string PickedColor;
+        public static PlayMode CurrentPlayMode;
         public GameObject Snow;
         public GameObject christmasTreePrefab;
-        public GameObject[] decorationItems;
+        public GameObject decorationItem;
 
         private GameObject christmasTree;
 
+        private Dictionary<string, string> decorationItemColor;
 
         private void Start() 
         {
             // Scene settings
             Snow.SetActive(false);
-            currentPlayMode = PlayMode.ChristmasTree;
+            CurrentPlayMode = PlayMode.ChristmasTree;
 
             // AR settings
             arSessionOrigin = GetComponent<ARSessionOrigin>();
             arRaycastManager = GetComponent<ARRaycastManager>();
             arPlaneManager = GetComponent<ARPlaneManager>();
+            arEnvironmentProbeManager = GetComponent<AREnvironmentProbeManager>();
             arRayHits = new List<ARRaycastHit>();
         }
 
@@ -61,11 +64,11 @@ namespace ARChristmas
                     Vector2 touchPosOnScreen = touchIN.position;
 
                     // if no christmas tree in the scene, place it at first
-                    if(currentPlayMode == PlayMode.ChristmasTree) 
+                    if(CurrentPlayMode == PlayMode.ChristmasTree) 
                     {
                         PlaceChristmasTree(touchPosOnScreen);
                     } 
-                    else if (currentPlayMode == PlayMode.Decoration)
+                    else if (CurrentPlayMode == PlayMode.Decoration)
                     {
                         Decorate(touchPosOnScreen);
                     }
@@ -79,7 +82,7 @@ namespace ARChristmas
             {
                 Pose placementPose = arRayHits[0].pose;
                 christmasTree = Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation) as GameObject;
-                currentPlayMode = PlayMode.Decoration;
+                CurrentPlayMode = PlayMode.Decoration;
                 Snow.SetActive(true);
                 DisableARPlaneDetection();
             }
@@ -106,7 +109,16 @@ namespace ARChristmas
                 if (raycastHit.transform.CompareTag("ChristmasTree"))
                 {
                     Vector3 decoratePos = raycastHit.point;
-                    Instantiate(decorationItems[decorationItemIndex], decoratePos, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f), christmasTree.transform);
+                    var item = Instantiate(decorationItem, decoratePos, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f), christmasTree.transform) as GameObject;
+
+                    // set color
+                    Color color;
+                    if (! ColorUtility.TryParseHtmlString(PickedColor, out color))
+                    {
+                        // if it failed to convert hexadeciaml to Color, set Red just in case
+                        color = Color.blue;
+                    }
+                    item.GetComponent<Renderer>().material.SetColor("Color_A9AB75C1", color);
                 }
             }
         }
@@ -114,7 +126,6 @@ namespace ARChristmas
         public void ScaleChristmasTree(float sliderValue) 
         {
             Vector3 pivot = new Vector3(christmasTree.transform.localPosition.x, 0f, christmasTree.transform.localPosition.z);
-            ScaleAroundPivot(pivot, Vector3.one * sliderValue);
         }
 
         private void ScaleAroundPivot(Vector3 pivot, Vector3 newScale) 
