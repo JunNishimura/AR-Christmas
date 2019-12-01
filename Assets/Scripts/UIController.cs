@@ -24,17 +24,17 @@ namespace ARChristmas
         private void Start() 
         {
             ControlUIActivation(false, false, false, false, false, false, false, false, false);
-            prevMode = ObjectPlacement.currentPlayMode;
+            prevMode = ObjectPlacement.CurrentPlayMode;
             isFlashEffect = false;
         }
 
         private void Update() 
         {
             // initialize uGUI after a christmas tree appears on the screen
-            if (ObjectPlacement.currentPlayMode != prevMode)
+            if (ObjectPlacement.CurrentPlayMode != prevMode)
             {
                 InitializeUI();
-                prevMode = ObjectPlacement.currentPlayMode;
+                prevMode = ObjectPlacement.CurrentPlayMode;
             }
 
             // camera flash effect
@@ -61,12 +61,9 @@ namespace ARChristmas
             }
         }
 
-        /// <summary>
-        ///　生成するデコレーションアイテムをタップされたアイテムに切り替える
-        /// </summary>
-        public void TapDecorationItem(int id) 
+        public void OnDecorationItemClicked(string hexadecimalColor) 
         {
-            ObjectPlacement.decorationItemIndex = id;
+            ObjectPlacement.PickedColor = hexadecimalColor;
         }
 
         private void InitializeUI() 
