@@ -10,8 +10,8 @@ namespace ARChristmas
         public GameObject CameraFlashEffect;
         public Button settingButton;
         public Button backButton;
-        public Button scaleButton;
-        public Slider scaleSlider;
+        // public Button scaleButton;
+        // public Slider scaleSlider;
         public Button decorationButton;
         public GameObject decorationInventory;
         public Button cameraModeButton;
@@ -42,6 +42,7 @@ namespace ARChristmas
             {
                 if(! isFlashEffect) 
                 {
+                    // on the first frame after cameraFlashEffect gets activated
                     isFlashEffect = true;
                     flashEffectImage = CameraFlashEffect.GetComponent<Image>();
                     flashEffectImage.color = Color.white;
@@ -74,8 +75,8 @@ namespace ARChristmas
             // set click event for each button
             settingButton.onClick.AddListener(() => ControlUIActivation(false, false, true, true, false, true, false, true, false));
             backButton.onClick.AddListener(() => ControlUIActivation(false, true, false, false, false, false, false, false, false));
-            scaleButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, true, false, false, false, false));
-            scaleSlider.onValueChanged.AddListener(GameObject.FindObjectOfType<ObjectPlacement>().ScaleChristmasTree);
+            // scaleButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, true, false, false, false, false));
+            // scaleSlider.onValueChanged.AddListener(GameObject.FindObjectOfType<ObjectPlacement>().ScaleChristmasTree);
             decorationButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, false, false, true, false, false));
             cameraModeButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, false, false, false, false, true));
             captureButton.onClick.AddListener(captureButton.gameObject.GetComponent<ScreenShot>().ScreenShotPressed);
@@ -89,8 +90,8 @@ namespace ARChristmas
             CameraFlashEffect.SetActive(isFlashEffect);
             settingButton.gameObject.SetActive(isSetting);
             backButton.gameObject.SetActive(isBack);
-            scaleButton.gameObject.SetActive(isScale);
-            scaleSlider.gameObject.SetActive(isScaleSlider);
+            // scaleButton.gameObject.SetActive(isScale);
+            // scaleSlider.gameObject.SetActive(isScaleSlider);
             decorationButton.gameObject.SetActive(isDecoration);
             decorationInventory.SetActive(isDecorationInv);
             cameraModeButton.gameObject.SetActive(isCameraMode);

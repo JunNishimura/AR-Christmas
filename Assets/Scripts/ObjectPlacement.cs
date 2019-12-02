@@ -31,7 +31,6 @@ namespace ARChristmas
 
         private GameObject christmasTree;
 
-        private Dictionary<string, string> decorationItemColor;
 
         private void Start() 
         {
@@ -84,17 +83,15 @@ namespace ARChristmas
                 christmasTree = Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation) as GameObject;
                 CurrentPlayMode = PlayMode.Decoration;
                 Snow.SetActive(true);
-                DisableARPlaneDetection();
             }
         }
 
-        private void DisableARPlaneDetection() 
+        public void ToggleARPlaneDetection(bool state) 
         {
-            arPlaneManager.enabled = false;
-
+            arPlaneManager.enabled = state;
             foreach(ARPlane plane in arPlaneManager.trackables) 
             {
-                plane.gameObject.SetActive(false);
+                plane.gameObject.SetActive(state);
             }
         }
 
@@ -123,22 +120,23 @@ namespace ARChristmas
             }
         }
 
-        public void ScaleChristmasTree(float sliderValue) 
-        {
-            Vector3 pivot = new Vector3(christmasTree.transform.localPosition.x, 0f, christmasTree.transform.localPosition.z);
-        }
+        // public void ScaleChristmasTree(float sliderValue) 
+        // {
+        //     Vector3 pivot = new Vector3(christmasTree.transform.position.x, 0f, christmasTree.transform.position.z);
+        //     ScaleAroundPivot(pivot, Vector3.one * sliderValue);
+        // }
 
-        private void ScaleAroundPivot(Vector3 pivot, Vector3 newScale) 
-        {
-            Vector3 pivotToCenter = christmasTree.transform.localPosition - pivot;
-            float relScaleAmount = newScale.x / christmasTree.transform.localScale.x;
+        // private void ScaleAroundPivot(Vector3 pivot, Vector3 newScale) 
+        // {
+        //     Vector3 pivotToCenter = christmasTree.transform.position - pivot;
+        //     float relScaleAmount = newScale.x / christmasTree.transform.localScale.x;
 
-            // calculate final position
-            Vector3 finalPosition = pivot + pivotToCenter * relScaleAmount;
+        //     // calculate final position
+        //     Vector3 finalPosition = pivot + pivotToCenter * relScaleAmount;
 
-            // execute scaling 
-            christmasTree.transform.localScale = newScale;
-            christmasTree.transform.localPosition = finalPosition;
-        }
+        //     // execute scaling 
+        //     christmasTree.transform.localScale = newScale;
+        //     christmasTree.transform.localPosition = finalPosition;
+        // }
     }
 }
