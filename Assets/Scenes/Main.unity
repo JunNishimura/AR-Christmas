@@ -3380,6 +3380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1960337816}
   - component: {fileID: 1960337815}
+  - component: {fileID: 1960337817}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -3408,8 +3409,8 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
+    m_Bias: 1
+    m_NormalBias: 1
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
       e00: 1
@@ -3461,6 +3462,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1960337817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960337814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e7772a7193604485a39a411c4027bab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_arCameraManager: {fileID: 339820428}
 --- !u!1001 &2007136446
 PrefabInstance:
   m_ObjectHideFlags: 0
