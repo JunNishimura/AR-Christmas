@@ -21,15 +21,17 @@ namespace ARChristmas
         private ARPlaneManager arPlaneManager;
         private AREnvironmentProbeManager arEnvironmentProbeManager;
         private List<ARRaycastHit> arRayHits;
+        
 
         // Game contents settings
+        public static GameObject christmasTree;
+        public static List<Light> christmasTreeLightList;
         public static string PickedColor;
         public static PlayMode CurrentPlayMode;
         public GameObject Snow;
         public GameObject christmasTreePrefab;
-        public GameObject decorationItem;
-
-        private GameObject christmasTree;
+        public GameObject decorationItemPrefab;
+        private List<GameObject> decorationItems;
 
 
         private void Start() 
@@ -37,6 +39,8 @@ namespace ARChristmas
             // Scene settings
             Snow.SetActive(false);
             CurrentPlayMode = PlayMode.ChristmasTree;
+            decorationItems = new List<GameObject>();
+            christmasTreeLightList = new List<Light>();
 
             // AR settings
             arSessionOrigin = GetComponent<ARSessionOrigin>();
@@ -81,6 +85,11 @@ namespace ARChristmas
             {
                 Pose placementPose = arRayHits[0].pose;
                 christmasTree = Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation) as GameObject;
+                foreach(Transform light in christmasTree.transform.Find("Lights").transform)
+                {
+                    christmasTreeLightList.Add(light.GetComponent<Light>());
+                }
+                SetChristmasTreeLight(false);
                 CurrentPlayMode = PlayMode.Decoration;
                 Snow.SetActive(true);
             }
@@ -106,7 +115,7 @@ namespace ARChristmas
                 if (raycastHit.transform.CompareTag("ChristmasTree"))
                 {
                     Vector3 decoratePos = raycastHit.point;
-                    var item = Instantiate(decorationItem, decoratePos, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f), christmasTree.transform) as GameObject;
+                    var item = Instantiate(decorationItemPrefab, decoratePos, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f), christmasTree.transform.Find("Christmas Tree")) as GameObject;
 
                     // set color
                     Color color;
@@ -115,8 +124,19 @@ namespace ARChristmas
                         // if it failed to convert hexadeciaml to Color, set Red just in case
                         color = Color.blue;
                     }
-                    item.GetComponent<Renderer>().material.SetColor("Color_A9AB75C1", color);
+                    // change base color and emission color to the selected color
+                    item.GetComponent<Renderer>().material.SetColor("Color_A9AB75C1", color); // base color
+                    item.GetComponent<Renderer>().material.SetColor("Color_B37F01A0", color); // emission color
+                    decorationItems.Add(item);
                 }
+            }
+        }
+
+        public static void SetChristmasTreeLight(bool islightON) 
+        {
+            foreach(var light in christmasTreeLightList)
+            {
+                light.enabled = islightON;
             }
         }
 

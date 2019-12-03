@@ -6,7 +6,7 @@ namespace ARChristmas
 {
     public class AccumulateSnow : MonoBehaviour
     {
-        [SerializeField] private float snowCoverdSeconds; // 積雪量が最大値に達するまでにかかる時間
+        [SerializeField] float snowCoverdSeconds; // 積雪量が最大値に達するまでにかかる時間
         private Renderer treeRenderer;
         private void Start() 
         {
