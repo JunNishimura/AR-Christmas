@@ -7,7 +7,7 @@ namespace ARChristmas
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class Snow : MonoBehaviour
     {
-        const int SNOW_NUM = 1000;
+        const int SNOW_NUM = 250;
         private Vector3[] vertices_;
         private int[] triangles_;
         private Color[] colors_;

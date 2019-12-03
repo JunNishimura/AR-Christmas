@@ -17,7 +17,7 @@ namespace ARChristmas
             // Deactivate UIs except for captureButton.
             // capture button can't be deactivated because it has this script, so just make it transparent.
             var uiController = FindObjectOfType<UIController>();
-            uiController.ControlUIActivation(false, false, false, false, false, false, false, false, true); 
+            uiController.ControlUIActivation(false, false, false, false, false, false, false, false, true, false); 
             uiController.captureButton.GetComponent<Image>().color = Color.clear; // make captureButton disappear from the scene
             FindObjectOfType<ObjectPlacement>().ToggleARPlaneDetection(false);
 
@@ -46,7 +46,7 @@ namespace ARChristmas
             // Saving doesn't take time, so this doesn't generate time lag and gives normal feedback to users.
             var uiController = FindObjectOfType<UIController>();
             uiController.captureButton.GetComponent<Image>().color = Color.white; // the button appears again
-            uiController.ControlUIActivation(true, false, false, false, false, false, false, false, false); 
+            uiController.ControlUIActivation(true, false, false, false, false, false, false, false, false, false); 
             FindObjectOfType<ObjectPlacement>().ToggleARPlaneDetection(true);
         }
     }

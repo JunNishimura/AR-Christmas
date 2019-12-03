@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7452026289429809387}
   - component: {fileID: 7452026289429809386}
   - component: {fileID: 7452026289429809385}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Reflective Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
