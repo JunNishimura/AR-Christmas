@@ -1,19 +1,32 @@
 # AR Christmas
 
-## MUST
-- light up decoration items 
-- add snow acculumation on detection plane
-- ar world for multip player editing
+## Demo
+### Youtube link
+[youtube link]("https://youtu.be/GhJBOPJLShk")
 
-## Ideas
-- お願いすると何かアニメーション出る
-- multi player can decorate at the same time
-- twitter連携
-- snowをツリー周りに積もらせる。んで足跡もできたら良いね。ツリー下にplane引けば良いかな
+### Images
+[]("/Assets/Images/image1.PNG")
+
+[]("/Assets/Images/image2.PNG")
+
+## Notable point
 
 
-(need to study)
-- DllImport
-- preprocessor 
+## Features
+- decoration
+- take photos and save them to device
+- christmas music 
+- Light estimation
 
-<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+## Reference
+- [Unity AR Foundation samples]("https://github.com/Unity-Technologies/arfoundation-samples")
+- [Dilmer Valecillos (Youtuber who works on AR tutorials)]("https://www.youtube.com/playlist?list=PLQMQNmwN3FvzLN-8moCKmZb00gr7sdcrZ")
+
+## Things I'm still working on
+- multi-player play
+- snow accumulation shader for the ground
+- add user interaction
+
+## Thanks
+<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div
