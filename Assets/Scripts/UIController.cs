@@ -19,15 +19,14 @@ namespace ARChristmas
         public Button captureButton;
         public Button lightUpButton;
         public PostProcessVolume postProcessVolume;
-
-        private PlayMode prevMode;
         private Image flashEffectImage;
+        private bool isUIInitialized;
         private bool isFlashEffect;
 
         private void Awake() 
         {
             ControlUIActivation(false, false, false, false, false, false, false, false, false, false);
-            prevMode = ObjectPlacement.CurrentPlayMode;
+            isUIInitialized = false;
             postProcessVolume.weight = 0f;
             isFlashEffect = false;
         }
@@ -35,10 +34,10 @@ namespace ARChristmas
         private void Update() 
         {
             // initialize uGUI after a christmas tree appears on the screen
-            if (ObjectPlacement.CurrentPlayMode != prevMode)
+            if (GameSceneManager.isTreeInTheScene && !isUIInitialized)
             {
                 InitializeUI();
-                prevMode = ObjectPlacement.CurrentPlayMode;
+                isUIInitialized = true;
             }
 
             // camera flash effect
