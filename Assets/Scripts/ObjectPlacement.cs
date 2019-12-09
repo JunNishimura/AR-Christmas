@@ -45,7 +45,7 @@ namespace ARChristmas
             {
                 Touch touchIN = Input.GetTouch(0);
 
-                // if the user touchces on UI, stop shooting a ray
+                // if the user touchces UI, stop shooting a ray
                 if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
                 {
                     return;
@@ -96,17 +96,16 @@ namespace ARChristmas
                         
             if (Physics.Raycast(ray, out raycastHit))
             {
-                // if the ray hits ChristmasTree, let the user decorate ChristmasTree
+                // user can decorate tree if the ray hits tree
                 if (raycastHit.transform.CompareTag("ChristmasTree"))
                 {
                     Vector3 decoratePos = raycastHit.point;
                     var item = Instantiate(decorationItemPrefab, decoratePos, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f), christmasTree.transform.Find("Christmas Tree")) as GameObject;
 
-                    // set color
                     Color color;
                     if (! ColorUtility.TryParseHtmlString(PickedColor, out color))
                     {
-                        // if it failed to convert hexadeciaml to Color, set Red just in case
+                        // if it failed to convert hexadeciaml to Color, set red just in case
                         color = Color.red;
                     }
                     // change base color and emission color to the selected color

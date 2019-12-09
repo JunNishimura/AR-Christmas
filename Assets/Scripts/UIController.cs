@@ -45,7 +45,7 @@ namespace ARChristmas
             {
                 if(! isFlashEffect) 
                 {
-                    // on the first frame after cameraFlashEffect gets activated
+                    // called at the first frame after cameraFlashEffect gets activated
                     isFlashEffect = true;
                     flashEffectImage = CameraFlashEffect.GetComponent<Image>();
                     flashEffectImage.color = Color.white;

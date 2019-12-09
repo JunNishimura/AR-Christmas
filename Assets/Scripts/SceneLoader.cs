@@ -5,9 +5,16 @@ namespace ARChristmas
 {
     public class SceneLoader : MonoBehaviour
     {
-        public void SceneLoad(string sceneNameToLoad) 
+        public void OnLoadSceneButton(string _sceneNameToLoad) 
         {
-            SceneManager.LoadScene(sceneNameToLoad);
+            SceneManager.LoadScene(_sceneNameToLoad);
+        }
+        
+        // True  -> Create New Tree 
+        // False -> Load saved Tree
+        public void OnTreeTypeSelectButton(bool _isNewTree) 
+        {
+            GameSceneManager.isNewTree = _isNewTree;
         }
     }   
 }
