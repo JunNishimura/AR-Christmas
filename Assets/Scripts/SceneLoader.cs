@@ -5,16 +5,31 @@ namespace ARChristmas
 {
     public class SceneLoader : MonoBehaviour
     {
+        public GameObject LoadRejectionUI;
         public void OnLoadSceneButton(string _sceneNameToLoad) 
         {
             SceneManager.LoadScene(_sceneNameToLoad);
         }
-        
-        // True  -> Create New Tree 
-        // False -> Load saved Tree
-        public void OnTreeTypeSelectButton(bool _isNewTree) 
+
+        public void OnNewTreeButton() 
         {
-            GameSceneManager.isNewTree = _isNewTree;
+            GameSceneManager.isNewTree = true;
+            OnLoadSceneButton("Main");
+        }
+
+        public void OnLoadTreeButton() 
+        {
+            if (System.IO.File.Exists(Application.persistentDataPath + "/save.txt"))
+            {
+                // if save file exists
+                GameSceneManager.isNewTree = false;
+                OnLoadSceneButton("Main");
+            }
+            else 
+            {
+                // if no save file
+                LoadRejectionUI.SetActive(true);
+            }
         }
     }   
 }

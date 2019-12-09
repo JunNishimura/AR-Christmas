@@ -30,10 +30,13 @@ namespace ARChristmas
         public void OnLoadTree()
         {
             var info = new FileInfo(Application.persistentDataPath + "/save.txt");
-            var reader = new StreamReader(info.OpenRead());
-            var json = reader.ReadToEnd();
-            var data = JsonUtility.FromJson<TreeSaveData>(json);
-            // ロードしたデータを反映
+            if (info != null) 
+            {
+                var reader = new StreamReader(info.OpenRead());
+                var json = reader.ReadToEnd();
+                var data = JsonUtility.FromJson<TreeSaveData>(json);
+                // ロードしたデータを反映
+            }
         }
 
         private TreeSaveData CreateSaveData() 
