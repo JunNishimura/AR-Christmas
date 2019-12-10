@@ -97,13 +97,13 @@ namespace ARChristmas
                 if (m_Light.intensity < threshold && isChristmasTreeLightON == false) 
                 {
                     Debug.Log("dark: light on");
-                    ObjectPlacement.SetChristmasTreeLight(true);
+                    ObjectPlacement.christmasTree.SetTreeLight(true);
                     isChristmasTreeLightON = true;
                 } 
                 else if (m_Light.intensity >= threshold && isChristmasTreeLightON == true)
                 {
                     Debug.Log("not dark: light off");
-                    ObjectPlacement.SetChristmasTreeLight(false);
+                    ObjectPlacement.christmasTree.SetTreeLight(false);
                     isChristmasTreeLightON = false;
                 }
             }
@@ -120,5 +120,5 @@ namespace ARChristmas
                 m_Light.color = colorCorrection.Value;
             }
         }
-    }   
+    }
 }

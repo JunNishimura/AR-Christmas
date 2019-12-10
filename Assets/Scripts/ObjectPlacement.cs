@@ -8,11 +8,6 @@ using UnityEngine.XR.ARSubsystems;
 
 namespace ARChristmas
 {
-    public enum PlayMode
-    {
-        ChristmasTree,
-        Decoration,
-    }
     public class ObjectPlacement : MonoBehaviour
     {
         // AR settings
@@ -22,25 +17,19 @@ namespace ARChristmas
         private AREnvironmentProbeManager arEnvironmentProbeManager;
         private List<ARRaycastHit> arRayHits;
         
-
         // Game contents settings
-        public static GameObject christmasTree;
-        public static List<Light> christmasTreeLightList;
+        public static ChristmasTree christmasTree;
         public static string PickedColor;
-        public static PlayMode CurrentPlayMode;
         public GameObject Snow;
         public GameObject christmasTreePrefab;
         public GameObject decorationItemPrefab;
-        private List<GameObject> decorationItems;
 
 
         private void Start() 
         {
             // Scene settings
             Snow.SetActive(false);
-            CurrentPlayMode = PlayMode.ChristmasTree;
-            decorationItems = new List<GameObject>();
-            christmasTreeLightList = new List<Light>();
+            GameSceneManager.isTreeInTheScene = false;
 
             // AR settings
             arSessionOrigin = GetComponent<ARSessionOrigin>();
@@ -56,7 +45,7 @@ namespace ARChristmas
             {
                 Touch touchIN = Input.GetTouch(0);
 
-                // if the user touchces on UI, stop shooting a ray
+                // if the user touchces UI, stop shooting a ray
                 if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
                 {
                     return;
@@ -67,11 +56,11 @@ namespace ARChristmas
                     Vector2 touchPosOnScreen = touchIN.position;
 
                     // if no christmas tree in the scene, place it at first
-                    if(CurrentPlayMode == PlayMode.ChristmasTree) 
+                    if(! GameSceneManager.isTreeInTheScene) 
                     {
                         PlaceChristmasTree(touchPosOnScreen);
                     } 
-                    else if (CurrentPlayMode == PlayMode.Decoration)
+                    else
                     {
                         Decorate(touchPosOnScreen);
                     }
@@ -84,13 +73,17 @@ namespace ARChristmas
             if (arRaycastManager.Raycast(touchPosOnScreen, arRayHits, TrackableType.PlaneWithinPolygon))
             {
                 Pose placementPose = arRayHits[0].pose;
-                christmasTree = Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation) as GameObject;
-                foreach(Transform light in christmasTree.transform.Find("Lights").transform)
+                christmasTree = Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation).GetComponent<ChristmasTree>();
+
+                // execute loading if user pressed "Load" button.
+                if (! GameSceneManager.isNewTree) 
                 {
-                    christmasTreeLightList.Add(light.GetComponent<Light>());
+                    FindObjectOfType<SaveLoadManager>().OnLoadTree();
+                    christmasTree.DecorateWithLoadData();
                 }
-                SetChristmasTreeLight(false);
-                CurrentPlayMode = PlayMode.Decoration;
+
+                christmasTree.SetTreeLight(false);
+                GameSceneManager.isTreeInTheScene = true;
                 Snow.SetActive(true);
             }
         }
@@ -108,35 +101,27 @@ namespace ARChristmas
         {
             Ray ray = Camera.main.ScreenPointToRay(touchPosOnScreen);
             RaycastHit raycastHit;
-                        
+            
             if (Physics.Raycast(ray, out raycastHit))
             {
-                // if the ray hits ChristmasTree, let the user decorate ChristmasTree
+                // user can decorate tree if the ray hits tree
                 if (raycastHit.transform.CompareTag("ChristmasTree"))
                 {
                     Vector3 decoratePos = raycastHit.point;
                     var item = Instantiate(decorationItemPrefab, decoratePos, Quaternion.Euler(0f, UnityEngine.Random.Range(0f, 360f), 0f), christmasTree.transform.Find("Christmas Tree")) as GameObject;
 
-                    // set color
                     Color color;
                     if (! ColorUtility.TryParseHtmlString(PickedColor, out color))
                     {
-                        // if it failed to convert hexadeciaml to Color, set Red just in case
-                        color = Color.blue;
+                        // if it failed to convert hexadeciaml to Color, set red just in case
+                        color = Color.red;
                     }
                     // change base color and emission color to the selected color
                     item.GetComponent<Renderer>().material.SetColor("Color_A9AB75C1", color); // base color
                     item.GetComponent<Renderer>().material.SetColor("Color_B37F01A0", color); // emission color
-                    decorationItems.Add(item);
+                    christmasTree.decorationItemLocalPos.Add(item.transform.localPosition);
+                    christmasTree.decorationItemColors.Add(color);
                 }
-            }
-        }
-
-        public static void SetChristmasTreeLight(bool islightON) 
-        {
-            foreach(var light in christmasTreeLightList)
-            {
-                light.enabled = islightON;
             }
         }
 
