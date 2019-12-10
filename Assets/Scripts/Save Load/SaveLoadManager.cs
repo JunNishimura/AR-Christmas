@@ -10,8 +10,9 @@ namespace ARChristmas
     [Serializable]
     public class TreeSaveData
     {
-        public List<Vector3> decoItemPositions;
-
+        // save "Local(relative to the parent tree)" position, not "World" position
+        public List<Vector3> decorationItemLocalPos;
+        public List<Color> decorationItemColors;
     }   
 
     public class SaveLoadManager : MonoBehaviour
@@ -35,15 +36,18 @@ namespace ARChristmas
                 var reader = new StreamReader(info.OpenRead());
                 var json = reader.ReadToEnd();
                 var data = JsonUtility.FromJson<TreeSaveData>(json);
+
                 // ロードしたデータを反映
+                ObjectPlacement.christmasTree.decorationItemLocalPos = data.decorationItemLocalPos;
+                ObjectPlacement.christmasTree.decorationItemColors = data.decorationItemColors;
             }
         }
 
         private TreeSaveData CreateSaveData() 
         {
             TreeSaveData save = new TreeSaveData();
-            save.decoItemPositions = ObjectPlacement.christmasTree.decoItemPositions;
-
+            save.decorationItemLocalPos = ObjectPlacement.christmasTree.decorationItemLocalPos;
+            save.decorationItemColors = ObjectPlacement.christmasTree.decorationItemColors;
             return save;
         }
     }

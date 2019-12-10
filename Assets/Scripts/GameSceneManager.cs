@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ARChristmas
 {
-    public class GameSceneManager : MonoBehaviour
+    public static class GameSceneManager
     {
         public static bool isTreeInTheScene { get; set; }
         public static bool isNewTree { get; set; }

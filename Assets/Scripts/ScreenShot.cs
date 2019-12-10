@@ -16,7 +16,7 @@ namespace ARChristmas
             // all UI need to vanish while taking a screen shot
             var uiController = FindObjectOfType<UIController>();
             // deactivate all UI except for captureButton
-            uiController.ControlUIActivation(false, false, false, false, false, false, false, false, true, false); 
+            uiController.ControlUIActivation(false, false, false, false, false, false, false, false, true, false, false); 
             // capture button can't be deactivated because it has this script, so just make it transparent.
             uiController.captureButton.GetComponent<Image>().color = Color.clear; 
             FindObjectOfType<ObjectPlacement>().ToggleARPlaneDetection(false);
@@ -47,7 +47,7 @@ namespace ARChristmas
             // Saving doesn't take time, so this doesn't generate time lag and gives normal feedback to users.
             var uiController = FindObjectOfType<UIController>();
             uiController.captureButton.GetComponent<Image>().color = Color.white; // the button appears again
-            uiController.ControlUIActivation(true, false, false, false, false, false, false, false, false, false); 
+            uiController.ControlUIActivation(true, false, false, false, false, false, false, false, false, false, false); 
             FindObjectOfType<ObjectPlacement>().ToggleARPlaneDetection(true);
         }
     }

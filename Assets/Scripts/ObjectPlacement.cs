@@ -74,6 +74,14 @@ namespace ARChristmas
             {
                 Pose placementPose = arRayHits[0].pose;
                 christmasTree = Instantiate(christmasTreePrefab, placementPose.position, placementPose.rotation).GetComponent<ChristmasTree>();
+
+                // execute loading if user pressed "Load" button.
+                if (! GameSceneManager.isNewTree) 
+                {
+                    FindObjectOfType<SaveLoadManager>().OnLoadTree();
+                    christmasTree.DecorateWithLoadData();
+                }
+
                 christmasTree.SetTreeLight(false);
                 GameSceneManager.isTreeInTheScene = true;
                 Snow.SetActive(true);
@@ -93,7 +101,7 @@ namespace ARChristmas
         {
             Ray ray = Camera.main.ScreenPointToRay(touchPosOnScreen);
             RaycastHit raycastHit;
-                        
+            
             if (Physics.Raycast(ray, out raycastHit))
             {
                 // user can decorate tree if the ray hits tree
@@ -111,8 +119,8 @@ namespace ARChristmas
                     // change base color and emission color to the selected color
                     item.GetComponent<Renderer>().material.SetColor("Color_A9AB75C1", color); // base color
                     item.GetComponent<Renderer>().material.SetColor("Color_B37F01A0", color); // emission color
-                    christmasTree.decoItemPositions.Add(item.transform.position);
-                    christmasTree.decoItemColors.Add(color);
+                    christmasTree.decorationItemLocalPos.Add(item.transform.localPosition);
+                    christmasTree.decorationItemColors.Add(color);
                 }
             }
         }
