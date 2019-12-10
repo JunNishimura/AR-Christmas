@@ -5,9 +5,9 @@
 [youtube link](https://youtu.be/GhJBOPJLShk)
 
 ### Images
-![]("/Images/image1.png")
+![](Images/image1.PNG)
 
-![]("/Images/image2.png")
+![](Images/image2.PNG)
 
 ## Notable point
 
