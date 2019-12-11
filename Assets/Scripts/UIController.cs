@@ -11,8 +11,8 @@ namespace ARChristmas
         public GameObject CameraFlashEffect;
         public Button settingButton;
         public Button backButton;
-        // public Button scaleButton;
-        // public Slider scaleSlider;
+        public Button scaleButton;
+        public Slider scaleSlider;
         public Button decorationButton;
         public GameObject decorationInventory;
         public Button cameraModeButton;
@@ -20,6 +20,10 @@ namespace ARChristmas
         public Button lightUpButton;
         public Button saveButton;
         public PostProcessVolume postProcessVolume;
+
+        private GameObject childChristmasTree;
+        private GameObject christmasTreeLights;
+        [SerializeField] private float originalLightIntensity;
         private Image flashEffectImage;
         private bool isUIInitialized;
         private bool isFlashEffect;
@@ -71,6 +75,26 @@ namespace ARChristmas
             ObjectPlacement.PickedColor = hexadecimalColor;
         }
 
+        public void OnScaleSliderChanged(float scaleVal) 
+        {
+            if (childChristmasTree == null)
+            {
+                // if this is the first time to change the slider value
+                childChristmasTree  = ObjectPlacement.christmasTree.transform.Find("Christmas Tree").gameObject;
+                christmasTreeLights = ObjectPlacement.christmasTree.transform.Find("Lights").gameObject;
+            }
+            childChristmasTree.transform.localScale = Vector3.one * scaleVal;
+            var scaledRatio = scaleVal / scaleSlider.minValue;
+            christmasTreeLights.transform.localScale = Vector3.one * scaledRatio;
+            foreach (var light in christmasTreeLights.GetComponentsInChildren<Light>())
+            {
+                light.range = scaledRatio;
+                if (light.name == "topLight")
+                    light.range *= 1.5f;
+                light.intensity = originalLightIntensity * scaledRatio;
+            }
+        }
+
         private void InitializeUI() 
         {
             // all buttons need to be true to set click event
@@ -79,8 +103,8 @@ namespace ARChristmas
             // set click event for each button
             settingButton.onClick.AddListener(() => ControlUIActivation(false, false, true, true, false, true, false, true, false, true, true));
             backButton.onClick.AddListener(() => ControlUIActivation(false, true, false, false, false, false, false, false, false, false, false));
-            // scaleButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, true, false, false, false, false));
-            // scaleSlider.onValueChanged.AddListener(GameObject.FindObjectOfType<ObjectPlacement>().ScaleChristmasTree);
+            scaleButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, true, false, false, false, false, false, false));
+            scaleSlider.onValueChanged.AddListener( (value) => OnScaleSliderChanged(value) );
             decorationButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, false, false, true, false, false, false, false));
             cameraModeButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, false, false, false, false, true, false, false));
             captureButton.onClick.AddListener(captureButton.gameObject.GetComponent<ScreenShot>().ScreenShotPressed);
@@ -100,8 +124,8 @@ namespace ARChristmas
             CameraFlashEffect.SetActive(isFlashEffect);
             settingButton.gameObject.SetActive(isSetting);
             backButton.gameObject.SetActive(isBack);
-            // scaleButton.gameObject.SetActive(isScale);
-            // scaleSlider.gameObject.SetActive(isScaleSlider);
+            scaleButton.gameObject.SetActive(isScale);
+            scaleSlider.gameObject.SetActive(isScaleSlider);
             decorationButton.gameObject.SetActive(isDecoration);
             decorationInventory.SetActive(isDecorationInv);
             cameraModeButton.gameObject.SetActive(isCameraMode);

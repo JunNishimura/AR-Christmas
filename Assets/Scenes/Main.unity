@@ -1210,7 +1210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -50, y: -650}
+  m_AnchoredPosition: {x: -50, y: -850}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 1, y: 1}
 --- !u!1 &409342471
@@ -1295,10 +1295,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1452974236}
   m_HandleRect: {fileID: 768553717}
   m_Direction: 2
-  m_MinValue: 1
-  m_MaxValue: 5
+  m_MinValue: 0.4
+  m_MaxValue: 8
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.4
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2339,7 +2339,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -50, y: -850}
+  m_AnchoredPosition: {x: -50, y: -1050}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &910689087
@@ -3059,7 +3059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1329886224
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4231,6 +4231,8 @@ MonoBehaviour:
   CameraFlashEffect: {fileID: 1026611272}
   settingButton: {fileID: 361425629}
   backButton: {fileID: 416881539}
+  scaleButton: {fileID: 1329886227}
+  scaleSlider: {fileID: 409342473}
   decorationButton: {fileID: 415904682}
   decorationInventory: {fileID: 5790915903987095043}
   cameraModeButton: {fileID: 165817790}
@@ -4238,6 +4240,7 @@ MonoBehaviour:
   lightUpButton: {fileID: 398783518}
   saveButton: {fileID: 910689087}
   postProcessVolume: {fileID: 636175491}
+  originalLightIntensity: 3
 --- !u!114 &5790915903633641252
 MonoBehaviour:
   m_ObjectHideFlags: 0
