@@ -31,7 +31,7 @@ namespace ARChristmas
         public void OnLoadTree()
         {
             var info = new FileInfo(Application.persistentDataPath + "/save.txt");
-            if (info != null) 
+            if (info.Exists) 
             {
                 var reader = new StreamReader(info.OpenRead());
                 var json = reader.ReadToEnd();

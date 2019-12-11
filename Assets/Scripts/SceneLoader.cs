@@ -21,13 +21,13 @@ namespace ARChristmas
         {
             if (System.IO.File.Exists(Application.persistentDataPath + "/save.txt"))
             {
-                // if save file exists
+                // if save file exists, start loading
                 GameSceneManager.isNewTree = false;
                 OnLoadSceneButton("Main");
             }
             else 
             {
-                // if no save file
+                // if no save file, show load rejection UI
                 LoadRejectionUI.SetActive(true);
             }
         }

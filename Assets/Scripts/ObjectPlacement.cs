@@ -55,14 +55,15 @@ namespace ARChristmas
                 {
                     Vector2 touchPosOnScreen = touchIN.position;
 
-                    // if no christmas tree in the scene, place it at first
-                    if(! GameSceneManager.isTreeInTheScene) 
+                    if(GameSceneManager.isTreeInTheScene) 
                     {
-                        PlaceChristmasTree(touchPosOnScreen);
+                        // decorate if christmas tree already exists in the scene
+                        Decorate(touchPosOnScreen);
                     } 
                     else
                     {
-                        Decorate(touchPosOnScreen);
+                        // place christmas tree at first
+                        PlaceChristmasTree(touchPosOnScreen);
                     }
                 }
             }
@@ -116,9 +117,12 @@ namespace ARChristmas
                         // if it failed to convert hexadeciaml to Color, set red just in case
                         color = Color.red;
                     }
+
                     // change base color and emission color to the selected color
                     item.GetComponent<Renderer>().material.SetColor("Color_A9AB75C1", color); // base color
                     item.GetComponent<Renderer>().material.SetColor("Color_B37F01A0", color); // emission color
+
+                    // register new decoration item
                     christmasTree.decorationItemLocalPos.Add(item.transform.localPosition);
                     christmasTree.decorationItemColors.Add(color);
                 }
