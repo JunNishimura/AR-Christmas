@@ -5,50 +5,41 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace ARChristmas
+namespace ARChristmas.Save
 {
-    [Serializable]
-    public class TreeSaveData
+    // ファイルのセーブ / ロードを行うスクリプト
+    public static class SaveLoadManager <T>
     {
-        // save "Local(relative to the parent tree)" position, not "World" position
-        public List<Vector3> decorationItemLocalPos;
-        public List<Color> decorationItemColors;
-    }   
-
-    public class SaveLoadManager : MonoBehaviour
-    {
-        public void OnSaveTree() 
+        /// <summary> 
+        /// Save object to designated path.
+        /// </summary>
+        public static void SaveData(T saveObject, string pathToSave) 
         {
-            TreeSaveData save = CreateSaveData();
-            var json = JsonUtility.ToJson(save);
-            var path = Application.persistentDataPath + "/save.txt";
-            var writer = new StreamWriter(path, false);
+            var json = JsonUtility.ToJson(saveObject);
+            var writer = new StreamWriter(pathToSave, false);
             writer.WriteLine(json);
             writer.Flush();
             writer.Close();
         }
 
-        public void OnLoadTree()
+        /// <summary>
+        /// Load object from designated path
+        /// </summary>
+        public static T GetLoadData(string pathToLoad) 
         {
-            var info = new FileInfo(Application.persistentDataPath + "/save.txt");
-            if (info.Exists) 
+            var file = new FileInfo(pathToLoad);
+            if (file.Exists)
             {
-                var reader = new StreamReader(info.OpenRead());
+                var reader = new StreamReader(file.OpenRead());
                 var json = reader.ReadToEnd();
-                var data = JsonUtility.FromJson<TreeSaveData>(json);
-
-                // ロードしたデータを反映
-                ObjectPlacement.christmasTree.decorationItemLocalPos = data.decorationItemLocalPos;
-                ObjectPlacement.christmasTree.decorationItemColors = data.decorationItemColors;
+                var loadedData = JsonUtility.FromJson<T>(json);
+                return loadedData;
             }
-        }
-
-        private TreeSaveData CreateSaveData() 
-        {
-            TreeSaveData save = new TreeSaveData();
-            save.decorationItemLocalPos = ObjectPlacement.christmasTree.decorationItemLocalPos;
-            save.decorationItemColors = ObjectPlacement.christmasTree.decorationItemColors;
-            return save;
+            else 
+            {
+                Debug.Log("There is no file to load");
+                return default(T);
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using ARChristmas.Save;
 
 namespace ARChristmas
 {
@@ -23,7 +24,6 @@ namespace ARChristmas
         public GameObject Snow;
         public GameObject christmasTreePrefab;
         public GameObject decorationItemPrefab;
-
 
         private void Start() 
         {
@@ -79,8 +79,8 @@ namespace ARChristmas
                 // execute loading if user pressed "Load" button.
                 if (! GameSceneManager.isNewTree) 
                 {
-                    FindObjectOfType<SaveLoadManager>().OnLoadTree();
-                    christmasTree.DecorateWithLoadData();
+                    var loadObj = SaveLoadManager<TreeSaveData>.GetLoadData(Application.persistentDataPath + "/save.txt");
+                    christmasTree.DecorateWithLoadData(loadObj);
                 }
 
                 christmasTree.SetTreeLight(false);
@@ -128,24 +128,5 @@ namespace ARChristmas
                 }
             }
         }
-
-        // public void ScaleChristmasTree(float sliderValue) 
-        // {
-        //     Vector3 pivot = new Vector3(christmasTree.transform.position.x, 0f, christmasTree.transform.position.z);
-        //     ScaleAroundPivot(pivot, Vector3.one * sliderValue);
-        // }
-
-        // private void ScaleAroundPivot(Vector3 pivot, Vector3 newScale) 
-        // {
-        //     Vector3 pivotToCenter = christmasTree.transform.position - pivot;
-        //     float relScaleAmount = newScale.x / christmasTree.transform.localScale.x;
-
-        //     // calculate final position
-        //     Vector3 finalPosition = pivot + pivotToCenter * relScaleAmount;
-
-        //     // execute scaling 
-        //     christmasTree.transform.localScale = newScale;
-        //     christmasTree.transform.localPosition = finalPosition;
-        // }
     }
 }

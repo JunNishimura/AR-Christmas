@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ARChristmas.Save;
 
 public class ChristmasTree : MonoBehaviour
 {
@@ -29,16 +30,19 @@ public class ChristmasTree : MonoBehaviour
         }
     }
 
-    public void DecorateWithLoadData() 
+    /// <summary>
+    /// Decorate Christmas Tree using loading data
+    /// </summary>
+    public void DecorateWithLoadData(TreeSaveData loadObject) 
     {
-        if (decorationItemLocalPos.Count != decorationItemColors.Count)
-            return;
+        this.decorationItemLocalPos = loadObject.decorationItemLocalPos;
+        this.decorationItemColors = loadObject.decorationItemColors;
         
         for (int i = 0; i < decorationItemLocalPos.Count; i++)
         {
             // ----- important ----- //
-            // At first, instantiate and set tree as item's parent.
-            // Then, set item's local position based on the save data.
+            // At first, instantiate and set Christmas Tree as item's parent.
+            // Then, set item's local position and color based on the save data.
             var item = Instantiate(decorationItemPrefab, this.transform.Find("Christmas Tree")) as GameObject;
             item.transform.localPosition = decorationItemLocalPos[i]; 
             item.GetComponent<Renderer>().material.SetColor("Color_A9AB75C1", decorationItemColors[i]); // base color

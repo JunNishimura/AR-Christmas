@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
+using ARChristmas.Save;
 
 namespace ARChristmas
 {
@@ -27,6 +29,7 @@ namespace ARChristmas
         private Image flashEffectImage;
         private bool isUIInitialized;
         private bool isFlashEffect;
+        private string saveFilePath;
 
         private void Awake() 
         {
@@ -34,6 +37,8 @@ namespace ARChristmas
             isUIInitialized = false;
             postProcessVolume.weight = 0f;
             isFlashEffect = false;
+
+            saveFilePath = Application.persistentDataPath + "/save.txt";
         }
 
         private void Update() 
@@ -108,18 +113,27 @@ namespace ARChristmas
             decorationButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, false, false, true, false, false, false, false));
             cameraModeButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, false, false, false, false, true, false, false));
             captureButton.onClick.AddListener(captureButton.gameObject.GetComponent<ScreenShot>().ScreenShotPressed);
-            UnityEngine.Events.UnityAction lightAction = LightUpController;
+            UnityAction lightAction = LightUpController;
             lightAction += () => ControlUIActivation(false, true, false, false, false, false, false, false, false, false, false);
             lightUpButton.onClick.AddListener(lightAction);
-            UnityEngine.Events.UnityAction saveAction = FindObjectOfType<SaveLoadManager>().OnSaveTree;
-            saveAction += () => ControlUIActivation(false, true, false, false, false, false, false, false, false, false, false);
-            saveButton.onClick.AddListener(saveAction);
+            saveButton.onClick.AddListener(OnPressedSaveButton);
 
             // setting button can be only true as default
             ControlUIActivation(false, true, false, false, false, false, false, false, false, false, false);
         }
 
-        public void ControlUIActivation(bool isFlashEffect, bool isSetting, bool isBack, bool isScale, bool isScaleSlider, bool isDecoration, bool isDecorationInv, bool isCameraMode, bool isCapture, bool isLightUp, bool isSave) 
+        public void ControlUIActivation(
+            bool isFlashEffect, 
+            bool isSetting, 
+            bool isBack, 
+            bool isScale, 
+            bool isScaleSlider, 
+            bool isDecoration, 
+            bool isDecorationInv, 
+            bool isCameraMode, 
+            bool isCapture, 
+            bool isLightUp, 
+            bool isSave) 
         {
             CameraFlashEffect.SetActive(isFlashEffect);
             settingButton.gameObject.SetActive(isSetting);
@@ -146,6 +160,15 @@ namespace ARChristmas
                 postProcessVolume.weight = 0;
                 lightUpButton.GetComponentInChildren<Text>().text = "Light\nOn";
             }
+        }
+
+        /// <summary>
+        /// callback function for save button
+        /// </summary>
+        private void OnPressedSaveButton() 
+        {
+            SaveLoadManager<TreeSaveData>.SaveData(new TreeSaveData(ObjectPlacement.christmasTree), saveFilePath);
+            ControlUIActivation(false, true, false, false, false, false, false, false, false, false, false);
         }
     }
 }
