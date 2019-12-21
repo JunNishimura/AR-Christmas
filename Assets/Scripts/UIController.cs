@@ -28,17 +28,13 @@ namespace ARChristmas
         [SerializeField] private float originalLightIntensity;
         private Image flashEffectImage;
         private bool isUIInitialized;
-        private bool isFlashEffect;
-        private string saveFilePath;
 
         private void Awake() 
         {
-            ControlUIActivation(false, false, false, false, false, false, false, false, false, false, false);
+            ControlUIActivation(false, false, false, false, false, false, false, false, false, false);
+            CameraFlashEffect.SetActive(false);
             isUIInitialized = false;
             postProcessVolume.weight = 0f;
-            isFlashEffect = false;
-
-            saveFilePath = Application.persistentDataPath + "/save.txt";
         }
 
         private void Update() 
@@ -53,24 +49,14 @@ namespace ARChristmas
             // camera flash effect
             if (CameraFlashEffect.activeSelf) 
             {
-                if(! isFlashEffect) 
-                {
-                    // call at the first frame after cameraFlashEffect gets activated
-                    isFlashEffect = true;
-                    flashEffectImage = CameraFlashEffect.GetComponent<Image>();
-                    flashEffectImage.color = Color.white;
-                }
-                else 
-                {
-                    flashEffectImage.color = Color.Lerp(flashEffectImage.color, Color.clear, Time.deltaTime);
+                flashEffectImage.color = Color.Lerp(flashEffectImage.color, Color.clear, Time.deltaTime);
 
-                    // finish camera flash effect
-                    if (flashEffectImage.color.a <= 0.05f)
-                    {
-                        flashEffectImage.color = Color.clear;
-                        isFlashEffect = false;
-                        ControlUIActivation(false, true, false, false, false, false, false, false, false, false, false);
-                    }
+                // finish camera flash effect
+                if (flashEffectImage.color.a <= 0.05f)
+                {
+                    flashEffectImage.color = Color.clear;
+                    CameraFlashEffect.SetActive(false);
+                    ControlUIActivation(true, false, false, false, false, false, false, false, false, false);
                 }
             }
         }
@@ -103,27 +89,26 @@ namespace ARChristmas
         private void InitializeUI() 
         {
             // all buttons need to be true to set click event
-            ControlUIActivation(false, true, true, true, true, true, false, true, true, true, true);
+            ControlUIActivation(true, true, true, true, true, false, true, true, true, true);
 
             // set click event for each button
-            settingButton.onClick.AddListener(() => ControlUIActivation(false, false, true, true, false, true, false, true, false, true, true));
-            backButton.onClick.AddListener(() => ControlUIActivation(false, true, false, false, false, false, false, false, false, false, false));
-            scaleButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, true, false, false, false, false, false, false));
+            settingButton.onClick.AddListener(() => ControlUIActivation(false, true, true, false, true, false, true, false, true, true));
+            backButton.onClick.AddListener(() => ControlUIActivation(true, false, false, false, false, false, false, false, false, false));
+            scaleButton.onClick.AddListener(() => ControlUIActivation(false, true, false, true, false, false, false, false, false, false));
             scaleSlider.onValueChanged.AddListener( (value) => OnScaleSliderChanged(value) );
-            decorationButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, false, false, true, false, false, false, false));
-            cameraModeButton.onClick.AddListener(() => ControlUIActivation(false, false, true, false, false, false, false, false, true, false, false));
-            captureButton.onClick.AddListener(captureButton.gameObject.GetComponent<ScreenShot>().ScreenShotPressed);
+            decorationButton.onClick.AddListener(() => ControlUIActivation(false, true, false, false, false, true, false, false, false, false));
+            cameraModeButton.onClick.AddListener(() => ControlUIActivation(false, true, false, false, false, false, false, true, false, false));
+            captureButton.onClick.AddListener(OnPressedCaptureButton);
             UnityAction lightAction = LightUpController;
-            lightAction += () => ControlUIActivation(false, true, false, false, false, false, false, false, false, false, false);
+            lightAction += () => ControlUIActivation(true, false, false, false, false, false, false, false, false, false);
             lightUpButton.onClick.AddListener(lightAction);
             saveButton.onClick.AddListener(OnPressedSaveButton);
 
             // setting button can be only true as default
-            ControlUIActivation(false, true, false, false, false, false, false, false, false, false, false);
+            ControlUIActivation(true, false, false, false, false, false, false, false, false, false);
         }
 
         public void ControlUIActivation(
-            bool isFlashEffect, 
             bool isSetting, 
             bool isBack, 
             bool isScale, 
@@ -135,7 +120,6 @@ namespace ARChristmas
             bool isLightUp, 
             bool isSave) 
         {
-            CameraFlashEffect.SetActive(isFlashEffect);
             settingButton.gameObject.SetActive(isSetting);
             backButton.gameObject.SetActive(isBack);
             scaleButton.gameObject.SetActive(isScale);
@@ -163,12 +147,61 @@ namespace ARChristmas
         }
 
         /// <summary>
+        /// callback function for capture button. 
+        /// Execute screenshot 
+        /// </summary>
+        public void OnPressedCaptureButton() 
+        {
+            PrepareScreenShot();
+
+            // play sound for capturing
+            GetComponent<AudioSource>().Play(); 
+
+            ScreenShotManager_iOS.CaptureAndSaveToAlbum("shot.png", PostScreenShotProcess);
+        }
+
+        /// <summary>
+        /// proceed with the necessary process for screenshot such as disable UIs and AR planes which should not be seen in shot.
+        /// </summary>
+        private void PrepareScreenShot() 
+        {
+            // deactivate all UI except for captureButton
+            // capture button can't be deactivated because it has ScreenShot script, so just make it transparent.
+            ControlUIActivation(false, false, false, false, false, false, false, true, false, false); 
+            captureButton.GetComponent<Image>().color = Color.clear; 
+            FindObjectOfType<ObjectPlacement>().ToggleARPlaneDetection(false);
+        }
+
+        /// <summary>
+        /// re-activate UI and AR planes which were out of screen while taking screen shots
+        /// </suumary>
+        private void PostScreenShotProcess() 
+        {
+            // re-activate UI and AR planes which were out of screen while taking screen shots
+            captureButton.GetComponent<Image>().color = Color.white;
+            FindObjectOfType<ObjectPlacement>().ToggleARPlaneDetection(true);
+
+            // execute camera flush effect after saving not to disturb saving process.
+            ControlUIActivation(false, false, false, false, false, false, false, false, false, false); 
+        }
+
+        /// <summary>
+        /// activate camera flash effect and set initial state
+        /// </summary> 
+        private void ActivateCamFlashEffect()
+        {
+            CameraFlashEffect.SetActive(true);            
+            flashEffectImage = CameraFlashEffect.GetComponent<Image>();
+            flashEffectImage.color = Color.white;
+        }
+
+        /// <summary>
         /// callback function for save button
         /// </summary>
         private void OnPressedSaveButton() 
         {
-            SaveLoadManager<TreeSaveData>.SaveData(new TreeSaveData(ObjectPlacement.christmasTree), saveFilePath);
-            ControlUIActivation(false, true, false, false, false, false, false, false, false, false, false);
+            SaveLoadManager<TreeSaveData>.SaveData(new TreeSaveData(ObjectPlacement.christmasTree), Application.persistentDataPath + "/save.txt");
+            ControlUIActivation(true, false, false, false, false, false, false, false, false, false);
         }
     }
 }
