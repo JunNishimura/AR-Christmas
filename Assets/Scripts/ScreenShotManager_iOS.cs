@@ -3,9 +3,8 @@ using System.Collections;
 using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace ARChristmas
+namespace ARChristmas.ScreenShot
 {
     public static class ScreenShotManager_iOS
     {

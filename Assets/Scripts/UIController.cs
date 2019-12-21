@@ -5,12 +5,13 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 using ARChristmas.Save;
+using ARChristmas.ScreenShot;
 
 namespace ARChristmas
 {
     public class UIController : MonoBehaviour
     {
-        public GameObject CameraFlashEffect;
+        public GameObject CamFlashEffectObj;
         public Button settingButton;
         public Button backButton;
         public Button scaleButton;
@@ -32,7 +33,7 @@ namespace ARChristmas
         private void Awake() 
         {
             ControlUIActivation(false, false, false, false, false, false, false, false, false, false);
-            CameraFlashEffect.SetActive(false);
+            CamFlashEffectObj.SetActive(false);
             isUIInitialized = false;
             postProcessVolume.weight = 0f;
         }
@@ -47,17 +48,9 @@ namespace ARChristmas
             }
 
             // camera flash effect
-            if (CameraFlashEffect.activeSelf) 
+            if (CamFlashEffectObj.activeSelf) 
             {
-                flashEffectImage.color = Color.Lerp(flashEffectImage.color, Color.clear, Time.deltaTime);
-
-                // finish camera flash effect
-                if (flashEffectImage.color.a <= 0.05f)
-                {
-                    flashEffectImage.color = Color.clear;
-                    CameraFlashEffect.SetActive(false);
-                    ControlUIActivation(true, false, false, false, false, false, false, false, false, false);
-                }
+                CameraFlashing();
             }
         }
 
@@ -155,7 +148,7 @@ namespace ARChristmas
             PrepareScreenShot();
 
             // play sound for capturing
-            GetComponent<AudioSource>().Play(); 
+            captureButton.GetComponent<AudioSource>().Play(); 
 
             ScreenShotManager_iOS.CaptureAndSaveToAlbum("shot.png", PostScreenShotProcess);
         }
@@ -181,8 +174,8 @@ namespace ARChristmas
             captureButton.GetComponent<Image>().color = Color.white;
             FindObjectOfType<ObjectPlacement>().ToggleARPlaneDetection(true);
 
-            // execute camera flush effect after saving not to disturb saving process.
-            ControlUIActivation(false, false, false, false, false, false, false, false, false, false); 
+            // Execute camera flash effect after saving, not to disturb saving process.
+            ActivateCamFlashEffect();
         }
 
         /// <summary>
@@ -190,9 +183,29 @@ namespace ARChristmas
         /// </summary> 
         private void ActivateCamFlashEffect()
         {
-            CameraFlashEffect.SetActive(true);            
-            flashEffectImage = CameraFlashEffect.GetComponent<Image>();
+            // disable all UIs before activating camera flash effect
+            ControlUIActivation(false, false, false, false, false, false, false, false, false, false); 
+
+            CamFlashEffectObj.SetActive(true);            
+            flashEffectImage = CamFlashEffectObj.GetComponent<Image>();
             flashEffectImage.color = Color.white;
+        }
+        
+        /// <summary>
+        /// imitate camera flash by changing screen from opaque white to transparent.
+        /// stop flashing if screen is back to transparent enough;
+        /// </summary>
+        private void CameraFlashing()
+        {
+            flashEffectImage.color = Color.Lerp(flashEffectImage.color, Color.clear, Time.deltaTime);
+
+            // finish camera flash effect
+            if (flashEffectImage.color.a <= 0.05f)
+            {
+                flashEffectImage.color = Color.clear;
+                CamFlashEffectObj.SetActive(false);
+                ControlUIActivation(true, false, false, false, false, false, false, false, false, false);
+            }
         }
 
         /// <summary>
