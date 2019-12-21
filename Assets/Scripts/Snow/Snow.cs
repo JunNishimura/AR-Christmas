@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ARChristmas
+namespace ARChristmas.Snow
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class Snow : MonoBehaviour

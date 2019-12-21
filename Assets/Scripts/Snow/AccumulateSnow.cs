@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ARChristmas
+namespace ARChristmas.Snow
 {
     public class AccumulateSnow : MonoBehaviour
     {
