@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
-using ARChristmas.Save;
-using ARChristmas.ScreenShot;
+using ARChristmas.Utilities.Save;
+using ARChristmas.Utilities.ScreenShot.iOS;
 
 namespace ARChristmas
 {

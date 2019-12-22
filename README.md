@@ -14,10 +14,11 @@
 
 ## Features
 - decoration
-- take photos and save them to device
-- christmas music 
-- Light estimation
-
+- photos
+- christmas music
+- light estimation
+- scale
+- save / load
 
 ## Reference
 - [Unity AR Foundation samples](https://github.com/Unity-Technologies/arfoundation-samples)
@@ -25,8 +26,7 @@
 
 ## Things I'm still working on
 - multi-player play
-- snow accumulation shader for the ground
-- add user interaction
+- animatino
 
 ## Thanks
 <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div
