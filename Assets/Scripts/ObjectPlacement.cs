@@ -17,7 +17,6 @@ namespace ARChristmas
         
         // Game contents settings
         public static ChristmasTree christmasTree;
-        public static string PickedColor;
         public GameObject Snow;
         public GameObject christmasTreePrefab;
         public GameObject decorationItemPrefab;
@@ -109,27 +108,21 @@ namespace ARChristmas
         private void Decorate(Vector3 hitPoint) 
         {
             // creation
-            (Vector3, Color) newItem = CreateNewDecorateItem(hitPoint);
+            (Vector3 localPos, Color color) newItem = CreateNewOrnamentBall(hitPoint);
 
             // registration
-            christmasTree.decorationItemLocalPos.Add(newItem.Item1); //item1: item's local position relative to the parent christmas tree
-            christmasTree.decorationItemColors.Add(newItem.Item2);   //item2: item's color
+            christmasTree.decorationItemLocalPos.Add(newItem.localPos);
+            christmasTree.decorationItemColors.Add(newItem.color);
         }
 
         /// <summary>
-        /// create new christmas tree and return info which is registered to christmasTree
+        /// create new ornament ball and return info which is registered to christmasTree
         /// </summary>
-        private (Vector3, Color) CreateNewDecorateItem(Vector3 hitPoint)
+        private (Vector3, Color) CreateNewOrnamentBall(Vector3 hitPoint)
         {
             var newItem = Instantiate(decorationItemPrefab, hitPoint, Quaternion.identity, christmasTree.transform.Find("Christmas Tree")) as GameObject;
 
-            // set color
-            Color color;
-            if (! ColorUtility.TryParseHtmlString(PickedColor, out color))
-            {
-                // if it failed to convert hexadeciaml to Color, set red just in case
-                color = Color.red;
-            }
+            Color color = UIController.SelectedColor;
             newItem.GetComponent<Renderer>().material.SetColor("Color_A9AB75C1", color); // base color
             newItem.GetComponent<Renderer>().material.SetColor("Color_B37F01A0", color); // emission color
 
@@ -151,15 +144,21 @@ namespace ARChristmas
             christmasTree.SetTreeLight(false);
             GameSceneManager.isTreeInTheScene = true;
             Snow.SetActive(true);
+
+            ApplyOcclusionPlane();
         }
 
-        public void ToggleARPlaneDetection(bool state) 
+        /// <summary>
+        /// destroy all ar planes in the scene
+        /// switch AR plane from "AR Default Plane" to "AR Occlusion Plane"
+        /// </summary>
+        private void ApplyOcclusionPlane() 
         {
-            arPlaneManager.enabled = state;
-            foreach(ARPlane plane in arPlaneManager.trackables) 
+            foreach(ARPlane plane in arPlaneManager.trackables)
             {
-                plane.gameObject.SetActive(state);
+                Destroy(plane.gameObject); // do not forget .gameObject
             }
+            arPlaneManager.planePrefab = Resources.Load("Prefab/AR Occlusion Plane") as GameObject;
         }
     }
 }

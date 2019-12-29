@@ -1,4 +1,4 @@
-﻿Shader "AR/Occlusion"
+﻿Shader "AR/PlaneOcclusion"
 {
     SubShader
     {
