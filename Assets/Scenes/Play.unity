@@ -1552,8 +1552,8 @@ GameObject:
   - component: {fileID: 435737828}
   - component: {fileID: 435737827}
   - component: {fileID: 435737830}
-  - component: {fileID: 435737831}
   - component: {fileID: 435737826}
+  - component: {fileID: 435737831}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -1641,7 +1641,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 435737825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 078fb9ef69ff54c5687eaf6836e6c3d6, type: 3}
+  m_Script: {fileID: 11500000, guid: fc269a5cf57454f79a3dd8ba0a6f72a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Snow: {fileID: 1326507140}

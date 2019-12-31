@@ -13,7 +13,7 @@ namespace ARChristmas
 
         public void OnNewTreeButton() 
         {
-            GameSceneManager.isNewTree = true;
+            ChristmasTree.isLoadingON = true;
             SceneManager.LoadScene("Play");
         }
 
@@ -22,7 +22,7 @@ namespace ARChristmas
             if (System.IO.File.Exists(Application.persistentDataPath + "/save.txt"))
             {
                 // if save file exists, start loading
-                GameSceneManager.isNewTree = false;
+                ChristmasTree.isLoadingON = false;
                 SceneManager.LoadScene("Play");
             }
             else 

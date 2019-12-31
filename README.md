@@ -22,10 +22,9 @@
 
 ## Things I'm still working on
 - multi-player
-- people occlusion
-- scene transition
-- ar plane detection透明にする.それに伴って、写真の時のarplane disableとかも消す
-- 移動できても面白い。
+- people occlusion (保留)
+- scene transition 
+- tree 移動 (next)
 
 ## Thanks
 <div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div

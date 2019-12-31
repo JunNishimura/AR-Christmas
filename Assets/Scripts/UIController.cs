@@ -19,7 +19,7 @@ namespace ARChristmas
 
     public class TabState 
     {
-        public TabType CurTabType;
+        public static TabType CurTabType;
         public Dictionary<TabType, GameObject> tabDicts;
 
         public TabState(TabType initTabType) 
@@ -31,7 +31,7 @@ namespace ARChristmas
     public class UIController : MonoBehaviour
     {
         // ----- static -----
-        public static Color SelectedColor;
+        public static Color SelectedColor = Color.white;
         public static bool isOpenTabBar;
 
         // ----- public -----
@@ -61,7 +61,7 @@ namespace ARChristmas
         [SerializeField] private Vector2 scaleRange;
         private static readonly Color highlightTabColor = new Color(174.0f/255.0f, 255.0f/255.0f, 217.0f/255.0f, 1.0f); // light blue
         private const float treeDefaultScale = 0.4f;
-        private const float defaultLightIntensity = 5f;
+        private const float defaultLightIntensity = 10f;
         private TabState tabState;
         private GameObject childTree;
         private GameObject treeLightsObj;
@@ -97,6 +97,10 @@ namespace ARChristmas
         /// </summary>
         private void InitTabState() 
         {
+            // tabBar will be activated when christmas tree is spawned in the scene
+            tabBar.SetActive(false);
+
+            // tabs
             ornamentColTab.SetActive(true);
             lightingTab.SetActive(false);
             scalingTab.SetActive(false);
@@ -177,7 +181,7 @@ namespace ARChristmas
         /// </summary>
         public void OnPressedTab(TabType tabType) 
         {
-            if (tabState.CurTabType != tabType)
+            if (TabState.CurTabType != tabType)
                 ChangeTabType(tabType);
         }
 
@@ -187,13 +191,13 @@ namespace ARChristmas
         private void ChangeTabType(TabType newTabType) 
         {
             // tab color
-            ChangeTabColor(tabState.CurTabType, Color.white); // previouly selected tab -> white
+            ChangeTabColor(TabState.CurTabType, Color.white); // previouly selected tab -> white
             ChangeTabColor(newTabType, highlightTabColor);    // newly selected tab -> light blue
 
             // tab state
-            tabState.tabDicts[tabState.CurTabType].SetActive(false);
+            tabState.tabDicts[TabState.CurTabType].SetActive(false);
             tabState.tabDicts[newTabType].SetActive(true);
-            tabState.CurTabType = newTabType;
+            TabState.CurTabType = newTabType;
         }
 
         /// <summary>
@@ -292,8 +296,8 @@ namespace ARChristmas
         /// </summary>
         private void SetChildTreeAndLights() 
         {
-            childTree = ObjectPlacement.christmasTree.transform.Find("Christmas Tree").gameObject;
-            treeLightsObj = ObjectPlacement.christmasTree.transform.Find("Lights").gameObject;
+            childTree = PlayerInteraction.christmasTree.transform.Find("Christmas Tree").gameObject;
+            treeLightsObj = PlayerInteraction.christmasTree.transform.Find("Lights").gameObject;
             treeLights = new List<Light>(treeLightsObj.GetComponentsInChildren<Light>());
         }
 
@@ -352,7 +356,6 @@ namespace ARChristmas
         /// </summary>
         private void CameraFlashing()
         {
-            Debug.Log("hello");
             flashEffectImage.color = Color.Lerp(flashEffectImage.color, Color.clear, Time.deltaTime);
 
             // finish camera flash effect
@@ -368,14 +371,16 @@ namespace ARChristmas
         #endregion 
 
         #region Save Tab
+
         /// <summary>
         /// callback function for save button
         /// </summary>
         public void OnPressedSave() 
         {
-            SaveLoadManager<TreeSaveData>.SaveData(new TreeSaveData(ObjectPlacement.christmasTree), Application.persistentDataPath + "/save.txt");
+            SaveLoadManager<TreeSaveData>.SaveData(new TreeSaveData(PlayerInteraction.christmasTree), Application.persistentDataPath + "/save.txt");
             SaveCompleteObj.SetActive(true);
         }
+        
         #endregion
     }
 }

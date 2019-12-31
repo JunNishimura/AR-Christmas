@@ -5,6 +5,7 @@ namespace ARChristmas
 {
     public class ChristmasTree : MonoBehaviour
     {
+        public static bool isLoadingON;
         public GameObject decorationItemPrefab;
         // save "Local(relative to the parent tree)" position, not "World" position
         public List<Vector3> decorationItemLocalPos { get; set; }

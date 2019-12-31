@@ -96,14 +96,12 @@ namespace ARChristmas
                 float threshold = 0.1f;
                 if (m_Light.intensity < threshold && isChristmasTreeLightON == false) 
                 {
-                    Debug.Log("dark: light on");
-                    ObjectPlacement.christmasTree.SetTreeLight(true);
+                    PlayerInteraction.christmasTree.SetTreeLight(true);
                     isChristmasTreeLightON = true;
                 } 
                 else if (m_Light.intensity >= threshold && isChristmasTreeLightON == true)
                 {
-                    Debug.Log("not dark: light off");
-                    ObjectPlacement.christmasTree.SetTreeLight(false);
+                    PlayerInteraction.christmasTree.SetTreeLight(false);
                     isChristmasTreeLightON = false;
                 }
             }
