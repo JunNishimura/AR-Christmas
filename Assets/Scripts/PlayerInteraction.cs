@@ -36,7 +36,7 @@ namespace ARChristmas
             if (! isScreenTouched(out Vector2 screenTouchPos))
                 return;
             
-            if(christmasTree == null) // if there is no ChristmasTree in the scene
+            if(christmasTree == null) 
             {   
                 if (arRaycastManager.Raycast(screenTouchPos, arRayHits, TrackableType.PlaneWithinPolygon))
                 {
