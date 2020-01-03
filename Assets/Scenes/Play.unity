@@ -1554,6 +1554,8 @@ GameObject:
   - component: {fileID: 435737830}
   - component: {fileID: 435737826}
   - component: {fileID: 435737831}
+  - component: {fileID: 435737833}
+  - component: {fileID: 435737832}
   m_Layer: 0
   m_Name: AR Session Origin
   m_TagString: Untagged
@@ -1649,6 +1651,37 @@ MonoBehaviour:
     type: 3}
   decorationItemPrefab: {fileID: 7452026289429809384, guid: 80d5748cec1e74d3eb846342a2250c7a,
     type: 3}
+--- !u!114 &435737832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435737825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c62953772ac24c36a204d39f4138718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  occlusionMat: {fileID: 2100000, guid: 10c7392493ce84056afcf37310e1d949, type: 2}
+--- !u!114 &435737833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435737825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e5861fe4d817477986290fde61dbc8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HumanBodyPose2DEstimationEnabled: 0
+  m_HumanBodyPose3DEstimationEnabled: 0
+  m_HumanBodyPose3DScaleEstimationEnabled: 0
+  m_HumanSegmentationStencilMode: 1
+  m_HumanSegmentationDepthMode: 1
+  m_HumanBodyPrefab: {fileID: 0}
 --- !u!1 &465567758
 GameObject:
   m_ObjectHideFlags: 0
