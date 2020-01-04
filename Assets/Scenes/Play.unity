@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1116,6 +1116,7 @@ GameObject:
   - component: {fileID: 339820428}
   - component: {fileID: 339820427}
   - component: {fileID: 339820431}
+  - component: {fileID: 339820433}
   - component: {fileID: 339820432}
   m_Layer: 0
   m_Name: AR Camera
@@ -1289,6 +1290,19 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &339820433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339820425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c62953772ac24c36a204d39f4138718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  occlusionShader: {fileID: 4800000, guid: 005799e85dfd246c0891523216f7020a, type: 3}
 --- !u!1 &408435219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1554,7 +1568,6 @@ GameObject:
   - component: {fileID: 435737830}
   - component: {fileID: 435737826}
   - component: {fileID: 435737831}
-  - component: {fileID: 435737833}
   - component: {fileID: 435737832}
   m_Layer: 0
   m_Name: AR Session Origin
@@ -1660,26 +1673,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 435737825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c62953772ac24c36a204d39f4138718, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  occlusionMat: {fileID: 2100000, guid: 10c7392493ce84056afcf37310e1d949, type: 2}
---- !u!114 &435737833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 435737825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e5861fe4d817477986290fde61dbc8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_HumanBodyPose2DEstimationEnabled: 0
   m_HumanBodyPose3DEstimationEnabled: 0
   m_HumanBodyPose3DScaleEstimationEnabled: 0
-  m_HumanSegmentationStencilMode: 1
+  m_HumanSegmentationStencilMode: 3
   m_HumanSegmentationDepthMode: 1
   m_HumanBodyPrefab: {fileID: 0}
 --- !u!1 &465567758
