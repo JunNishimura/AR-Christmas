@@ -3,6 +3,13 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _CameraFeed ("Texture", 2D) = "white" {}
+        _OcclusionDepth ("Texture", 2D) = "white" {}
+        _OcclusionStencil ("Texture", 2D) = "white" {}
+        _UVMultiplierLandScape ("UV MultiplerLandScape", Float) = 0.0
+        _UVMultiplierPortrait ("UV MultiplerPortrait", Float) = 0.0
+        _UVFlip ("Flip UV", Float) = 0.0
+        _ONWIDE ("Onwide", Int) = 0
     }
     SubShader
     {
@@ -28,53 +35,49 @@
             {
                 float4 vertex : SV_POSITION;
                 float2 uv : TEXCOORD0;
+                float2 uv1 : TEXCOORD1;
+                float2 uv2 : TEXCOORD2;
             };
+
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            sampler2D_float _OcclusionDepth;
+            sampler2D _OcclusionStencil;
+            sampler2D _CameraFeed;
+            sampler2D_float _CameraDepthTexture;
+            float _UVMultiplierLandScape;
+            float _UVMultiplierPortrait;
+            float _UVFlip;
+            int _ONWIDE;
 
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
+                if (_ONWIDE == 1) 
+                {
+                    o.uv1 = float2(v.uv.x, (1.0 - (_UVMultiplierLandScape * 0.5f)) + (v.uv.y / _UVMultiplierLandScape));
+                    o.uv2 = float2(lerp(1.0 - o.uv1.x, o.uv1.x, _UVFlip), lerp(o.uv1.y, 1.0 - o.uv1.y, _UVFlip));
+                }
+                else 
+                {
+                    o.uv1 = float2((1.0 - (_UVMultiplierPortrait * 0.5f)) + (v.uv.x / _UVMultiplierPortrait), v.uv.y);
+                    o.uv2 = float2(lerp(1.0 - o.uv1.y, o.uv1.y, 0), lerp(o.uv1.x, 1.0 - o.uv1.x, 1));
+                }
                 return o;
             }
-
-            sampler2D _MainTex;
-            sampler2D _BackgroundTex;
-            sampler2D _DepthTex;
-            sampler2D _StencilTex;
-
-            UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
 
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
-                float2 uv = i.uv;
+                fixed4 camFeedCol = tex2D(_CameraFeed, i.uv1);
+                float sceneDepth = LinearEyeDepth(SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv));
+                float4 stencilCol = tex2D(_OcclusionStencil, i.uv2);
+                float occlusionDepth = tex2D(_OcclusionDepth, i.uv2) * 0.625;
 
-                // flip x axis
-                uv.x = 1.0 - uv.x;
-
-                // correcting texture ratio that can be picked by ARHUmanBodyManager to the screen ratio
-                float ratio = 1.62;
-                uv.y /= ratio;
-                uv.y += 1.0 - (ratio * 0.5);
-
-                float stencil = tex2D(_StencilTex, uv).r;
-                if (stencil < 0.9)
-                {
-                    return col;
-                }
-
-                float depth = tex2D(_DepthTex, uv).r;
-                float sceneZ = LinearEyeDepth(tex2D(_CameraDepthTexture, i.uv));
-                float delta = saturate(sceneZ - depth);
-                if (delta > 0.0)
-                {
-                    return tex2D(_BackgroundTex, i.uv);
-                }
-                else 
-                {
-                    return col;
-                }
+                float showOccluder = step(occlusionDepth, sceneDepth) * stencilCol.r;
+                return lerp(col, camFeedCol, showOccluder);
             }
             ENDCG
         }
