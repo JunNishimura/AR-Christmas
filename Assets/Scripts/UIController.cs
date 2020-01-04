@@ -309,7 +309,7 @@ namespace ARChristmas
         private void AdjustLightToScaling(float sliderVal) 
         {  
             var scaledRatio = sliderVal / treeDefaultScale; 
-            treeLightsObj.transform.localScale = Vector3.one * sliderVal;
+            treeLightsObj.transform.localScale = Vector3.one * scaledRatio;
             foreach( var light in treeLights )
             {
                 light.range = scaledRatio;
