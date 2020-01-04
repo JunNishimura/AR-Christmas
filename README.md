@@ -11,6 +11,8 @@
 
 ## Features
 - decoration
+![ezgif com-resize (1)](https://user-images.githubusercontent.com/28744711/71766986-ae344280-2f49-11ea-9e20-2e3a0bf98090.gif)
+
 - photos
 - light estimation
 - scale
