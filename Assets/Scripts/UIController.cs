@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Rendering;
 using ARChristmas.Utilities.Save;
 using ARChristmas.Utilities.ScreenShot.iOS;
 
@@ -51,7 +51,7 @@ namespace ARChristmas
 
         [Header("Others")]
         public GameObject tabBar;
-        public PostProcessVolume postProcessVol;
+        public Volume postProcessVol;
         public Image lightingProgressBar;
         public Image scalingProgressBar;
         public GameObject CamFlashEffectObj;
@@ -61,7 +61,7 @@ namespace ARChristmas
         [SerializeField] private Vector2 scaleRange;
         private static readonly Color highlightTabColor = new Color(174.0f/255.0f, 255.0f/255.0f, 217.0f/255.0f, 1.0f); // light blue
         private const float treeDefaultScale = 0.4f;
-        private const float defaultLightIntensity = 10f;
+        private const float defaultLightIntensity = 7f;
         private TabState tabState;
         private GameObject childTree;
         private GameObject treeLightsObj;
