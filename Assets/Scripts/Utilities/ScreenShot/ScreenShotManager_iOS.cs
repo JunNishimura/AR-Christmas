@@ -6,6 +6,12 @@ using UnityEngine;
 
 namespace ARChristmas.Utilities.ScreenShot.iOS
 {
+    /// <summary>
+    /// *** IMPORTANT ***
+    /// When to access iOS photo library, several keys need to be added in Info.plist in Xcode.
+    /// (key) Privacy - Photo Library Usage Description (value) access to photo library
+    /// (key) Privacy - Photo Library Additions Usage Description (value) save to photo library
+    /// </summary>
     public static class ScreenShotManager_iOS
     {
         [DllImport("__Internal")]
